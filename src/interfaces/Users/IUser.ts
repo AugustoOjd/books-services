@@ -1,12 +1,17 @@
-export interface IRegularUser{
+import { TAccount } from "./IUserBuilder";
+
+
+export interface IUser{
     name:               string;
     lastName:           string;
     email:              string;
     password:           string;
     country:            string;
     status:             boolean;
-    registerDate:       Date
-    cart:               {}[]
-
+    typeAccount:        TAccount;
+    balance:            number;
+    registerDate:       Date | null;
+    cart:               {}[];
+    history:            {}[];
     // verifyLogin():      boolean
 }

@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const RegularUserBuilder_1 = require("./RegularUserBuilder");
 class UserDirector {
     constructor(userBuilder) {
         this.userBuilder = userBuilder;
@@ -8,10 +7,11 @@ class UserDirector {
     setUserBuilder(userBuilder) {
         this.userBuilder = userBuilder;
     }
-    createRegularUser(name, lastName, email, password, status, balance) {
+    createRegularUser(name, lastName, email, country, password, status, balance) {
         this.userBuilder.setName(name)
             .setLastName(lastName)
             .setEmail(email)
+            .setCountry(country)
             .setPassword(password)
             .setStatus(status)
             .setTypeAccount('regular')
@@ -20,7 +20,7 @@ class UserDirector {
     }
 }
 exports.default = UserDirector;
-const director = new UserDirector(RegularUserBuilder_1.userBuilder);
-director.createRegularUser('ramon', 'gomez', 'ramon@gmail.com', '1234', true, 2000);
-const newUser = RegularUserBuilder_1.userBuilder.build();
-console.log(newUser);
+// const director = new UserDirector(userBuilder)
+// director.createRegularUser('ramon', 'gomez', 'ramon@gmail.com', '1234', true, 2000)
+// const newUser = userBuilder.build()
+// console.log(newUser)

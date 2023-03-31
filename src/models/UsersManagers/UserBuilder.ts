@@ -1,4 +1,5 @@
 import { IUserBuilder, TAccount } from "../../interfaces/Users/IUserBuilder";
+import { hashPassword } from "../../utils/bcryptConfig";
 import User from "./User";
 
 export default class UserBuilder implements IUserBuilder{
@@ -43,27 +44,27 @@ export default class UserBuilder implements IUserBuilder{
     }
 
     setName(name: string): IUserBuilder {
-        this.name = name
+        this.name = name.toLocaleLowerCase()
         return this
     }
 
     setLastName(lastName: string): IUserBuilder {
-        this.lastName = lastName
+        this.lastName = lastName.toLocaleLowerCase()
         return this
     }
 
     setEmail(email: string): IUserBuilder {
-        this.email = email
+        this.email = email.toLocaleLowerCase()
         return this
     }
 
     setPassword(password: string): IUserBuilder {
-        this.password = password
+        this.password = hashPassword(password) 
         return this
     }
 
     setCountry(country: string): IUserBuilder {
-        this.country = country
+        this.country = country.toLocaleLowerCase()
         return this
     }
 
@@ -83,7 +84,7 @@ export default class UserBuilder implements IUserBuilder{
     }
 
     setRegisterDate(registerDate: Date): IUserBuilder {
-        this.registerDate = registerDate 
+        this.registerDate = registerDate
         return this
     }
 
@@ -118,10 +119,10 @@ export default class UserBuilder implements IUserBuilder{
     }
 }
 
-export const userBuilder = new UserBuilder()
+// export const userBuilder = new UserBuilder()
 
-const jose = userBuilder .setName('jose')
-                                .setLastName('jose@gmail.com')
-                                .build()
+// const jose = userBuilder .setName('jose')
+//                                 .setLastName('jose@gmail.com')
+//                                 .build()
 
-                                console.log(jose)
+//                                 console.log(jose)

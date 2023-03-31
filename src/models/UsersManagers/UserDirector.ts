@@ -1,5 +1,4 @@
 import { IUserBuilder, TAccount } from "../../interfaces/Users/IUserBuilder";
-import { userBuilder } from "./RegularUserBuilder";
 
 export default class UserDirector {
 
@@ -16,7 +15,8 @@ export default class UserDirector {
     createRegularUser(
         name: string, 
         lastName: string, 
-        email: string, 
+        email: string,
+        country: string, 
         password: string, 
         status: boolean, 
         balance: number,     
@@ -24,6 +24,7 @@ export default class UserDirector {
             this.userBuilder    .setName(name)
                                 .setLastName(lastName)
                                 .setEmail(email)
+                                .setCountry(country)
                                 .setPassword(password)
                                 .setStatus(status)
                                 .setTypeAccount('regular')
@@ -33,9 +34,9 @@ export default class UserDirector {
 
 }
 
-const director = new UserDirector(userBuilder)
+// const director = new UserDirector(userBuilder)
 
-director.createRegularUser('ramon', 'gomez', 'ramon@gmail.com', '1234', true, 2000)
+// director.createRegularUser('ramon', 'gomez', 'ramon@gmail.com', '1234', true, 2000)
 
-const newUser = userBuilder.build()
-console.log(newUser)
+// const newUser = userBuilder.build()
+// console.log(newUser)

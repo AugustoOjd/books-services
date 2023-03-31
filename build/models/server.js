@@ -15,11 +15,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
-const dbConnection_1 = __importDefault(require("../db/dbConnection"));
+const user_routes_1 = __importDefault(require("../routes/user.routes"));
+const mongoose_1 = __importDefault(require("mongoose"));
 class Server {
     constructor() {
         this.app = (0, express_1.default)();
         this.port = process.env.PORT || '3000';
+        this.paths = {
+            register: '/api/register'
+        };
         this.dbConnection();
         // Middlewares
         this.middlewares();
@@ -28,15 +32,18 @@ class Server {
     }
     dbConnection() {
         return __awaiter(this, void 0, void 0, function* () {
-            const connect = dbConnection_1.default.getInstance();
-            console.log(connect);
+            // const connect = await DBConnection.getInstance()
+            // console.log(connect)
+            yield mongoose_1.default.connect(process.env.DB_CONNECTION);
         });
     }
     middlewares() {
+        this.app.use(express_1.default.json());
         this.app.use((0, cookie_parser_1.default)());
         this.app.use((0, cors_1.default)());
     }
     routes() {
+        this.app.use(this.paths.register, user_routes_1.default);
     }
     listen() {
         this.app.listen(this.port, () => {
