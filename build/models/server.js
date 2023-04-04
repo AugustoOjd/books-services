@@ -15,8 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
+const dbConnection_1 = __importDefault(require("../db/dbConnection"));
 const user_routes_1 = __importDefault(require("../routes/user.routes"));
-const mongoose_1 = __importDefault(require("mongoose"));
 class Server {
     constructor() {
         this.app = (0, express_1.default)();
@@ -32,9 +32,16 @@ class Server {
     }
     dbConnection() {
         return __awaiter(this, void 0, void 0, function* () {
-            // const connect = await DBConnection.getInstance()
+            // const connect = await 
             // console.log(connect)
-            yield mongoose_1.default.connect(process.env.DB_CONNECTION);
+            try {
+                // await mongoose.connect(process.env.DB_CONNECTION!)
+                yield dbConnection_1.default.getInstance();
+                console.log('db conectada');
+            }
+            catch (error) {
+                console.log(error);
+            }
         });
     }
     middlewares() {

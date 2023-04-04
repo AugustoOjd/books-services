@@ -34,9 +34,16 @@ export default class Server {
     }
 
     async dbConnection(){
-        // const connect = await DBConnection.getInstance()
+        // const connect = await 
         // console.log(connect)
-        await mongoose.connect(process.env.DB_CONNECTION!)
+        try {
+            // await mongoose.connect(process.env.DB_CONNECTION!)
+            await DBConnection.getInstance()
+            console.log('db conectada')
+        } catch (error) {
+            console.log(error)
+        }
+        
     }
 
 

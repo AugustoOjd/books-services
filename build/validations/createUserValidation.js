@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.userSchema = void 0;
+exports.userValidateSchema = void 0;
 const yup_1 = require("yup");
 // export const createUserValidation2 = (data: Data)=>{
 //     const {name, lastName, email, country, password} = data
@@ -60,7 +60,7 @@ const yup_1 = require("yup");
 // }
 // export const createUserValidation = (data: Data)=>{
 // const {name, lastName, email, country, password} = data
-exports.userSchema = (0, yup_1.object)({
+exports.userValidateSchema = (0, yup_1.object)({
     name: (0, yup_1.string)().required().min(3).max(15).matches(/^[a-zA-Z ]+$/),
     lastName: (0, yup_1.string)().required().min(4).max(15).matches(/^[a-zA-Z ]+$/),
     country: (0, yup_1.string)().required().min(3).max(15).matches(/^[a-zA-Z ]+$/),

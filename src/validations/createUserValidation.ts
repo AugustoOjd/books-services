@@ -1,4 +1,4 @@
-import { object, string, number, date, InferType } from 'yup';
+import { object, string, number, date} from 'yup';
 
 export type Data = {
     name:       string; 
@@ -92,7 +92,7 @@ export type Data = {
 
     // const {name, lastName, email, country, password} = data
 
-export const userSchema = object({
+export const userValidateSchema = object({
     name: string().required().min(3).max(15).matches(/^[a-zA-Z ]+$/),
     lastName: string().required().min(4).max(15).matches(/^[a-zA-Z ]+$/),
     country: string().required().min(3).max(15).matches(/^[a-zA-Z ]+$/),
