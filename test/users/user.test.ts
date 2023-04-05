@@ -3,13 +3,17 @@
 import router from '../../src/routes/user.routes'
 // import registerRouter from '../../src/routes/user.routes'
 import request from 'supertest'
+import Server from '../../src/models/server';
 
 
 describe('GET /user', ()=>{
+
+  let resp;
+  beforeEach( async ()=>{
+    resp = await request(new Server().app).get('/api/user').send()
+  })
   
   it('Debe responder con status 200', async ()=>{
-
-    const resp = await request(router).get('/api/user').send()
     expect(resp.status).toBe(200)
   })
 

@@ -7,5 +7,5 @@ exports.server = void 0;
 const server_1 = __importDefault(require("./models/server"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
-exports.server = new server_1.default();
+exports.server = new server_1.default().app;
 exports.server.listen();

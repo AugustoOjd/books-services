@@ -9,7 +9,7 @@ import mongoose from "mongoose";
 
 export default class Server {
     
-    private app: Application
+    app: Application
     private port: string
     private paths: {          
         register: '/api/user'
@@ -46,11 +46,14 @@ export default class Server {
         
     }
 
+    // EXPORTAR THIS.APP O APP DEL SERVER PARA USAR EN TEST
+
 
     middlewares(){
         this.app.use( express.json() )
-        this.app.use(cookieParser())
-        this.app.use(cors())
+        this.app.use( cookieParser() )
+        this.app.use( cors())
+        this.app.use( express.urlencoded({extended: true}) )
     }
 
     routes(){

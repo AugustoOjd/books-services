@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for controllers/user.controller.ts</title>
+    <title>Code coverage report for db/dbConnection.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../prettify.css" />
     <link rel="stylesheet" href="../base.css" />
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../index.html">All files</a> / <a href="index.html">controllers</a> user.controller.ts</h1>
+        <h1><a href="../index.html">All files</a> / <a href="index.html">db</a> dbConnection.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">44.44% </span>
+                <span class="strong">71.42% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>4/9</span>
-            </div>
-        
-            
-            <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
-                <span class="quiet">Branches</span>
-                <span class='fraction'>0/4</span>
+                <span class='fraction'>5/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">50% </span>
-                <span class="quiet">Functions</span>
+                <span class="quiet">Branches</span>
                 <span class='fraction'>1/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">44.44% </span>
+                <span class="strong">100% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>2/2</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">71.42% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>4/9</span>
+                <span class='fraction'>5/7</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -100,87 +100,81 @@
 <a name='L35'></a><a href='#L35'>35</a>
 <a name='L36'></a><a href='#L36'>36</a>
 <a name='L37'></a><a href='#L37'>37</a>
-<a name='L38'></a><a href='#L38'>38</a>
-<a name='L39'></a><a href='#L39'>39</a>
-<a name='L40'></a><a href='#L40'>40</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L38'></a><a href='#L38'>38</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { response, request } from "express";
-import RegisterRegularUser from "../services/userServices/user.services";
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import mongoose from "mongoose";
+import dotenv from 'dotenv'
+dotenv.config()
+// Aplicando singleton para conexion de db
 &nbsp;
-const serviceUser = new RegisterRegularUser()
+export default class DBConnection {
 &nbsp;
+    private static instance: DBConnection
+    // public connect: Promise&lt;typeof import("mongoose")&gt;
+    // public saludar: string
 &nbsp;
-export const regiterUser = <span class="fstat-no" title="function not covered" >as</span>ync (req = <span class="branch-0 cbranch-no" title="branch not covered" >request,</span> res = <span class="branch-0 cbranch-no" title="branch not covered" >response)</span>=&gt;{
+    private constructor(){
+        // this.saludar = 'holaa'
+        // this.connection
+        mongoose.connect(process.env.DB_CONNECTION!)
+        // this.connect = mongoose.connect(process.env.DB_CONNECTION!)
+    }
 &nbsp;
-    const { name, lastName, email, country, password } = <span class="cstat-no" title="statement not covered" >req.body</span>
-    
-<span class="cstat-no" title="statement not covered" >    try {</span>
-        const newRegularUser = <span class="cstat-no" title="statement not covered" >await serviceUser.registerRegularUser(name, lastName, email, country, password)</span>
+    // async connection(){
+    //     await mongoose.connect(process.env.DB_CONNECTION!)
         
-<span class="cstat-no" title="statement not covered" >        return res.status(201).json({</span>
-            msg: 'regular user creando correctamente',
-            payload: {
-                user: {
-                name: newRegularUser.userData.name,
-                lastName: newRegularUser.userData.lastName,
-                email: newRegularUser.userData.email,
-                country: newRegularUser.userData.country,
-                status: newRegularUser.userData.status,
-                balance: newRegularUser.userData.balance,
-                cart: newRegularUser.userData.cart,
-                history: newRegularUser.userData.history
-                },
-                token: newRegularUser.token
-            }
-        })
+    // }
 &nbsp;
-    } catch (error) {
-<span class="cstat-no" title="statement not covered" >        return res.status(404).json({error: error})</span>
+    public static getInstance(): DBConnection{
+&nbsp;
+        <span class="missing-if-branch" title="else path not taken" >E</span>if(!this.instance){
+            console.log('db conectada')
+            return this.instance = new DBConnection()
+        }
+<span class="cstat-no" title="statement not covered" >        console.log('db ya conectada')</span>
+<span class="cstat-no" title="statement not covered" >        return this.instance</span>
     }
 &nbsp;
 }
 &nbsp;
-export const getUsers = async (req = <span class="branch-0 cbranch-no" title="branch not covered" >request,</span> res = <span class="branch-0 cbranch-no" title="branch not covered" >response)</span> =&gt;{
 &nbsp;
-    return res.send('hola ok')
-}</pre></td></tr></table></pre>
+&nbsp;
+&nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->

@@ -44,10 +44,12 @@ class Server {
             }
         });
     }
+    // EXPORTAR THIS.APP O APP DEL SERVER PARA USAR EN TEST
     middlewares() {
         this.app.use(express_1.default.json());
         this.app.use((0, cookie_parser_1.default)());
         this.app.use((0, cors_1.default)());
+        this.app.use(express_1.default.urlencoded({ extended: true }));
     }
     routes() {
         this.app.use(this.paths.register, user_routes_1.default);
