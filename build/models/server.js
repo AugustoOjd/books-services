@@ -22,7 +22,7 @@ class Server {
         this.app = (0, express_1.default)();
         this.port = process.env.PORT || '3000';
         this.paths = {
-            register: '/api/register'
+            register: '/api/user'
         };
         this.dbConnection();
         // Middlewares

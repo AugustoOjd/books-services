@@ -12,7 +12,7 @@ export default class Server {
     private app: Application
     private port: string
     private paths: {          
-        register: '/api/register'
+        register: '/api/user'
     }
 
     constructor(){
@@ -20,7 +20,7 @@ export default class Server {
         this.port = process.env.PORT || '3000'
 
         this.paths = {          
-            register: '/api/register'
+            register: '/api/user'
         }
 
 

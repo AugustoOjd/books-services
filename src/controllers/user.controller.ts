@@ -33,3 +33,8 @@ export const regiterUser = async (req = request, res = response)=>{
     }
 
 }
+
+export const getUsers = async (req = request, res = response) =>{
+
+    return res.send('hola ok')
+}
