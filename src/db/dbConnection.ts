@@ -24,10 +24,8 @@ export default class DBConnection {
     public static getInstance(): DBConnection{
 
         if(!this.instance){
-            console.log('db conectada')
             return this.instance = new DBConnection()
         }
-        console.log('db ya conectada')
         return this.instance
     }
 

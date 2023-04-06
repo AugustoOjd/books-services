@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">91.66% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/12</span>
+                <span class='fraction'>11/12</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>1/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">91.66% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/12</span>
+                <span class='fraction'>11/12</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -144,17 +144,17 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -181,7 +181,7 @@ export default class User {
     private history:            {}[];
 &nbsp;
 &nbsp;
-<span class="fstat-no" title="function not covered" >    co</span>nstructor(
+    constructor(
         name:           string,
         lastName:       string,
         email:          string, 
@@ -194,17 +194,17 @@ export default class User {
         cart:           {}[],
         history:        {}[]
         ){
-<span class="cstat-no" title="statement not covered" >        this.name =          name</span>
-<span class="cstat-no" title="statement not covered" >        this.lastName =      lastName</span>
-<span class="cstat-no" title="statement not covered" >        this.email =         email</span>
-<span class="cstat-no" title="statement not covered" >        this.password =      password</span>
-<span class="cstat-no" title="statement not covered" >        this.country =       country</span>
-<span class="cstat-no" title="statement not covered" >        this.status =        status</span>
-<span class="cstat-no" title="statement not covered" >        this.typeAccount =   typeAccount</span>
-<span class="cstat-no" title="statement not covered" >        this.balance =       balance</span>
-<span class="cstat-no" title="statement not covered" >        this.registerDate =  registerDate</span>
-<span class="cstat-no" title="statement not covered" >        this.cart =          cart</span>
-<span class="cstat-no" title="statement not covered" >        this.history =       history</span>
+        this.name =          name
+        this.lastName =      lastName
+        this.email =         email
+        this.password =      password
+        this.country =       country
+        this.status =        status
+        this.typeAccount =   typeAccount
+        this.balance =       balance
+        this.registerDate =  registerDate
+        this.cart =          cart
+        this.history =       history
     }
 &nbsp;
 <span class="fstat-no" title="function not covered" >    ge</span>tEmail(){
@@ -220,7 +220,7 @@ export default class User {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-04-05T22:36:36.480Z
+                at 2023-04-06T22:41:06.156Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

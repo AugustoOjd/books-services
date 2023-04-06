@@ -1,7 +1,7 @@
 import { UserModel } from "../../db/schemas/user.schema"
 import UserBuilder from "../../models/UsersManagers/UserBuilder"
 import UserDirector from "../../models/UsersManagers/UserDirector"
-
+import jwt from 'jsonwebtoken'
 
 
 export default class RegisterRegularUser {
@@ -35,10 +35,14 @@ export default class RegisterRegularUser {
             
             const user = this.userBuilder.build()
             const data = await UserModel.create(user)
+            
+            // Math.floor(Date.now() / 1000) - 30
+            // 60*60*7
+            const token = jwt.sign({token: data._id, iat: 60*60*7 }, process.env.JWT_KEY!)
 
             return {
                 userData: data,
-                token: 'test token'
+                token
             }
 
         } catch (error) {

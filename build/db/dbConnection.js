@@ -21,10 +21,8 @@ class DBConnection {
     // }
     static getInstance() {
         if (!this.instance) {
-            console.log('db conectada');
             return this.instance = new DBConnection();
         }
-        console.log('db ya conectada');
         return this.instance;
     }
 }

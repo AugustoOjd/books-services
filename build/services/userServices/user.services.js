@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const user_schema_1 = require("../../db/schemas/user.schema");
 const UserBuilder_1 = __importDefault(require("../../models/UsersManagers/UserBuilder"));
 const UserDirector_1 = __importDefault(require("../../models/UsersManagers/UserDirector"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 class RegisterRegularUser {
     constructor() {
         this.userBuilder = new UserBuilder_1.default();
@@ -35,9 +36,12 @@ class RegisterRegularUser {
                 }
                 const user = this.userBuilder.build();
                 const data = yield user_schema_1.UserModel.create(user);
+                // Math.floor(Date.now() / 1000) - 30
+                // 60*60*7
+                const token = jsonwebtoken_1.default.sign({ token: data._id, iat: 60 * 60 * 7 }, process.env.JWT_KEY);
                 return {
                     userData: data,
-                    token: 'test token'
+                    token
                 };
             }
             catch (error) {

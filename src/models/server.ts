@@ -4,12 +4,13 @@ import cookieParser from 'cookie-parser'
 import DBConnection from "../db/dbConnection";
 import registerRouter from '../routes/user.routes'
 import mongoose from "mongoose";
+import bodyParser from "body-parser";
 
 
 
 export default class Server {
     
-    app: Application
+    private app: Application
     private port: string
     private paths: {          
         register: '/api/user'
@@ -33,13 +34,16 @@ export default class Server {
         this.routes(); 
     }
 
+    getApp(){
+        return this.app
+    }
+
     async dbConnection(){
         // const connect = await 
         // console.log(connect)
         try {
             // await mongoose.connect(process.env.DB_CONNECTION!)
             await DBConnection.getInstance()
-            console.log('db conectada')
         } catch (error) {
             console.log(error)
         }
@@ -53,6 +57,8 @@ export default class Server {
         this.app.use( express.json() )
         this.app.use( cookieParser() )
         this.app.use( cors())
+        this.app.use( bodyParser.json() );
+        this.app.use( bodyParser.urlencoded({extended: true}) );
         this.app.use( express.urlencoded({extended: true}) )
     }
 
