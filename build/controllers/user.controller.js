@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updatePlus = exports.regiterUser = exports.getUsers = void 0;
+exports.updatePlus = exports.loginUser = exports.regiterUser = exports.getUsers = void 0;
 const express_1 = require("express");
 const user_services_1 = __importDefault(require("../services/userServices/user.services"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
@@ -32,7 +32,6 @@ const regiterUser = (req = express_1.request, res = express_1.response) => __awa
             msg: 'regular user creando correctamente',
             payload: {
                 user: {
-                    id: newRegularUser.userData._id,
                     name: newRegularUser.userData.name,
                     lastName: newRegularUser.userData.lastName,
                     email: newRegularUser.userData.email,
@@ -52,6 +51,36 @@ const regiterUser = (req = express_1.request, res = express_1.response) => __awa
     }
 });
 exports.regiterUser = regiterUser;
+const loginUser = (req = express_1.request, res = express_1.response) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email, password } = req.body;
+    try {
+        if (!email || !password) {
+            return res.status(404).json({ msg: 'Debe recibir email y password' });
+        }
+        const LoginData = yield serviceUser.loginUser(email, password);
+        return res.status(200).json({
+            msg: 'Login Succcess',
+            payload: {
+                user: {
+                    name: LoginData === null || LoginData === void 0 ? void 0 : LoginData.userData.name,
+                    lastName: LoginData === null || LoginData === void 0 ? void 0 : LoginData.userData.lastName,
+                    email: LoginData === null || LoginData === void 0 ? void 0 : LoginData.userData.email,
+                    country: LoginData === null || LoginData === void 0 ? void 0 : LoginData.userData.country,
+                    status: LoginData === null || LoginData === void 0 ? void 0 : LoginData.userData.status,
+                    balance: LoginData === null || LoginData === void 0 ? void 0 : LoginData.userData.balance,
+                    typeAccount: LoginData === null || LoginData === void 0 ? void 0 : LoginData.userData.typeAccount,
+                    cart: LoginData === null || LoginData === void 0 ? void 0 : LoginData.userData.cart,
+                    history: LoginData === null || LoginData === void 0 ? void 0 : LoginData.userData.history
+                },
+                token: LoginData === null || LoginData === void 0 ? void 0 : LoginData.token
+            }
+        });
+    }
+    catch (error) {
+        return res.status(404).json({ error: error });
+    }
+});
+exports.loginUser = loginUser;
 const updatePlus = (req = express_1.request, res = express_1.response) => __awaiter(void 0, void 0, void 0, function* () {
     // headers funciona
     // const { token } = req.headers

@@ -24,7 +24,6 @@ export const regiterUser = async (req = request, res = response)=>{
             msg: 'regular user creando correctamente',
             payload: {
                 user: {
-                id: newRegularUser.userData._id,
                 name: newRegularUser.userData.name,
                 lastName: newRegularUser.userData.lastName,
                 email: newRegularUser.userData.email,
@@ -43,6 +42,42 @@ export const regiterUser = async (req = request, res = response)=>{
         return res.status(404).json({error: error})
     }
 
+}
+
+export const loginUser = async (req = request, res = response) =>{
+    
+    const { email, password } = req.body
+    try {
+    
+        if(!email || !password){
+            return res.status(404).json({msg: 'Debe recibir email y password'})
+        }
+
+
+        const LoginData = await serviceUser.loginUser(email, password)
+
+        return res.status(200).json({
+            msg: 'Login Succcess',
+            payload: {
+                user: {
+                    name            : LoginData?.userData.name,
+                    lastName        : LoginData?.userData.lastName,
+                    email           : LoginData?.userData.email,
+                    country         : LoginData?.userData.country,
+                    status          : LoginData?.userData.status,
+                    balance         : LoginData?.userData.balance,
+                    typeAccount     : LoginData?.userData.typeAccount,
+                    cart            : LoginData?.userData.cart,
+                    history         : LoginData?.userData.history
+                    
+                },
+                token: LoginData?.token
+            }
+        })
+
+    } catch (error) {
+        return res.status(404).json({error: error})
+    }
 }
 
 

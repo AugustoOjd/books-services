@@ -6,6 +6,7 @@ const validateRegister_1 = require("../middlewares/validateRegister");
 const createUserValidation_1 = require("../validations/createUserValidation");
 const router = (0, express_1.Router)();
 router.post('/', (0, validateRegister_1.validateRegister)(createUserValidation_1.userValidateSchema), user_controller_1.regiterUser);
+router.post('/auth', user_controller_1.loginUser);
 router.put('/plus', user_controller_1.updatePlus);
 router.get('/', user_controller_1.getUsers);
 exports.default = router;

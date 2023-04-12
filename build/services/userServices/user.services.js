@@ -16,6 +16,7 @@ const user_schema_1 = require("../../db/schemas/user.schema");
 const UserBuilder_1 = __importDefault(require("../../models/UsersManagers/UserBuilder"));
 const UserDirector_1 = __importDefault(require("../../models/UsersManagers/UserDirector"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const bcryptConfig_1 = require("../../utils/bcryptConfig");
 class RegisterRegularUser {
     constructor() {
         this.userBuilder = new UserBuilder_1.default();
@@ -41,6 +42,47 @@ class RegisterRegularUser {
                 const token = jsonwebtoken_1.default.sign({ token: data._id, iat: 60 * 60 * 7 }, process.env.JWT_KEY);
                 return {
                     userData: data,
+                    token
+                };
+            }
+            catch (error) {
+                throw {
+                    code: this.code,
+                    error: this.error
+                };
+            }
+        });
+    }
+    loginUser(email, password) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const user = yield user_schema_1.UserModel.findOne({ email: email });
+                if (!user) {
+                    throw {
+                        code: this.code = 404,
+                        error: this.error = 'El email es incorrecto'
+                    };
+                }
+                const validPassDB = (0, bcryptConfig_1.validPassword)(user, password);
+                const token = jsonwebtoken_1.default.sign({ token: user._id, iat: 60 * 60 * 7 }, process.env.JWT_KEY);
+                if (!validPassDB) {
+                    throw {
+                        code: this.code = 404,
+                        error: this.error = 'Incorrect email or password'
+                    };
+                }
+                return {
+                    userData: {
+                        name: user.name,
+                        lastName: user.lastName,
+                        email: user.email,
+                        country: user.lastName,
+                        status: user.status,
+                        typeAccount: user.typeAccount,
+                        balance: user.balance,
+                        cart: user.cart,
+                        history: user.history
+                    },
                     token
                 };
             }

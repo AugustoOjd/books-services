@@ -2,6 +2,21 @@ import { UserModel } from "../../db/schemas/user.schema"
 import UserBuilder from "../../models/UsersManagers/UserBuilder"
 import UserDirector from "../../models/UsersManagers/UserDirector"
 import jwt from 'jsonwebtoken'
+import { validPassword } from "../../utils/bcryptConfig"
+import { IUser } from "../../interfaces/Users/IUser"
+
+type ResponseLoginUser = {
+    _id             : string
+    name            : string
+    lastName        : string
+    email           : string
+    country         : string
+    status          : boolean
+    typeAccount     : string
+    balance         : number
+    cart            : []
+    history         : []
+}
 
 
 export default class RegisterRegularUser {
@@ -52,4 +67,52 @@ export default class RegisterRegularUser {
             };
         }
     }
+
+    public async loginUser(email: string, password: string){
+        try {
+
+            const user: ResponseLoginUser | null = await UserModel.findOne({email: email})
+
+            if(!user){
+                throw {
+                    code: this.code = 404,
+                    error: this.error = 'El email es incorrecto'
+                };
+            }
+
+            const validPassDB = validPassword(user, password)
+            const token = jwt.sign({token: user._id, iat: 60*60*7 }, process.env.JWT_KEY!)
+
+            if(!validPassDB){
+                throw {
+                    code: this.code = 404,
+                    error: this.error = 'Incorrect email or password'
+                };
+            }
+
+            return {
+                userData:{
+                    name            : user.name,
+                    lastName        : user.lastName,
+                    email           : user.email,   
+                    country         : user.lastName,
+                    status          : user.status,
+                    typeAccount     : user.typeAccount,
+                    balance         : user.balance,   
+                    cart            : user.cart,   
+                    history         : user.history
+                },
+                token
+            }
+
+
+        } catch (error) {
+            throw {
+                code: this.code,
+                error: this.error
+            };
+        }
+    }
+
+    
 }
