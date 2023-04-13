@@ -23,7 +23,7 @@ type ResponseLoginUser = {
 }
 
 
-export default class RegisterRegularUser {
+export default class UserServices {
 
     private userBuilder 
     private userDirector
@@ -285,7 +285,5 @@ export default class RegisterRegularUser {
     
     
     }
-
-
 
 }

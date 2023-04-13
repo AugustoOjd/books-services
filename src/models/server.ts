@@ -1,9 +1,8 @@
-import express, {Application, application} from "express";
+import express, {Application } from "express";
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import DBConnection from "../db/dbConnection";
 import registerRouter from '../routes/user.routes'
-import mongoose from "mongoose";
 import bodyParser from "body-parser";
 
 

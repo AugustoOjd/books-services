@@ -1,10 +1,8 @@
 import { response, request } from "express";
-import RegisterRegularUser from "../services/userServices/user.services";
-import jwt, { JwtPayload } from 'jsonwebtoken';
-import { UserModel } from "../db/schemas/user.schema";
+import UserServices from "../services/userServices/user.services";
 
 
-const serviceUser = new RegisterRegularUser()
+const serviceUser = new UserServices()
 
 export const getUsers = async (req = request, res = response) =>{
 
@@ -42,7 +40,7 @@ export const regiterUser = async (req = request, res = response)=>{
         })
 
     } catch (error) {
-        return res.status(404).json({error: error})
+        return error
     }
 
 }
@@ -92,9 +90,6 @@ export const updatePlus =  async (req = request, res = response) =>{
     const {token} = req.cookies
 
     try {
-        if(!token){
-            throw {error: 'token no encontrado'}
-        }
         
         const updatedUserPlus = await serviceUser.updateUserToPlus(token)
 
