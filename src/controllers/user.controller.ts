@@ -1,6 +1,7 @@
 import { response, request } from "express";
 import RegisterRegularUser from "../services/userServices/user.services";
-import jwt from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
+import { UserModel } from "../db/schemas/user.schema";
 
 
 const serviceUser = new RegisterRegularUser()
@@ -83,41 +84,83 @@ export const loginUser = async (req = request, res = response) =>{
 
 export const updatePlus =  async (req = request, res = response) =>{
 
-    // headers funciona
+        // headers funciona
     // const { token } = req.headers
     // console.log(token)
     // const id = jwt.verify(token as string, process.env.JWT_KEY!)
 
+    // const {token} = req.cookies
+
+    // const id:any = jwt.verify(token, process.env.JWT_KEY!)
+
+    // // const idtoken = jwt.verify(token, 'shhhhh', function(err, decoded) {
+    // //     console.log(decoded.foo) // bar
+    // //   });
+    
+    // // let datos ={
+    // //     id: id.token
+    // // }
+    // const data = await UserModel.findById(id.token)
+
+    // console.log(data)
+
+    // try {
+        
+    //     return res.status(201).json({
+    //         msg: 'cookie validada correctamente',
+    //         payload: {
+    //             // user: {
+    //             // id: newRegularUser.userData._id,
+    //             // name: newRegularUser.userData.name,
+    //             // lastName: newRegularUser.userData.lastName,
+    //             // email: newRegularUser.userData.email,
+    //             // country: newRegularUser.userData.country,
+    //             // status: newRegularUser.userData.status,
+    //             // balance: newRegularUser.userData.balance,
+    //             // typeAccount: newRegularUser.userData.typeAccount,
+    //             // cart: newRegularUser.userData.cart,
+    //             // history: newRegularUser.userData.history
+    //             // },
+    //             // token: newRegularUser.token
+    //             token: id.token
+    //         }
+    //     })
+
+    // } catch (error) {
+    //     return res.status(404).json({error: 'error por editar'})
+    // }
+
     const {token} = req.cookies
 
-    const id = jwt.verify(token, process.env.JWT_KEY!)
-
-
-
     try {
-        
+
+        const updatedUserPlus = await serviceUser.updateUserToPlus(token)
+
+        if(!token){
+            throw {error: 'token no encontrado'}
+        }
+
         return res.status(201).json({
-            msg: 'cookie validada correctamente',
+            msg: 'user actualizado a plus correctamente',
             payload: {
-                // user: {
-                // id: newRegularUser.userData._id,
-                // name: newRegularUser.userData.name,
-                // lastName: newRegularUser.userData.lastName,
-                // email: newRegularUser.userData.email,
-                // country: newRegularUser.userData.country,
-                // status: newRegularUser.userData.status,
-                // balance: newRegularUser.userData.balance,
-                // typeAccount: newRegularUser.userData.typeAccount,
-                // cart: newRegularUser.userData.cart,
-                // history: newRegularUser.userData.history
-                // },
-                // token: newRegularUser.token
-                token: id
+                user: {
+                name: updatedUserPlus.userData.name,
+                lastName: updatedUserPlus.userData.lastName,
+                email: updatedUserPlus.userData.email,
+                country: updatedUserPlus.userData.country,
+                status: updatedUserPlus.userData.status,
+                balance: updatedUserPlus.userData.balance,
+                typeAccount: updatedUserPlus.userData.typeAccount,
+                cart: updatedUserPlus.userData.cart,
+                history: updatedUserPlus.userData.history
+                },
+                token: updatedUserPlus.tokenQuery
+
             }
         })
 
     } catch (error) {
-        return res.status(404).json({error: 'error por editar'})
+        return res.status(404).json({error: error})
     }
 
 }

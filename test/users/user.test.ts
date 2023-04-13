@@ -14,10 +14,21 @@ const newUser = {
   password: '123456'
 }
 
-
 const loginUser = {
   email: newUser.email,
   password: newUser.password
+}
+
+const authRegularUser = {
+  name: newUser.name,       
+  lastName: newUser.lastName,   
+  email: newUser.email,      
+  country: newUser.country,    
+  status: true,     
+  typeAccount: 'regular',
+  balance: 2000,    
+  // cart: [],     
+  // history: []    
 }
 
 describe('Pruebas API /user', ()=>{
@@ -38,8 +49,7 @@ describe('Pruebas API /user', ()=>{
       expect(resp.headers['content-type']).toContain('json')
   })
 
-
-  it('POST /api/user -register new regular user-', async ()=>{
+  it('POST /api/user - register new regular user -', async ()=>{
       const resp = await request(new Server().getApp()).post('/api/user').send(newUser)
 
       expect(resp.status).toBe(201)
@@ -54,7 +64,7 @@ describe('Pruebas API /user', ()=>{
       expect(resp.body.payload.token).toBeDefined()
   })
 
-  it('POST /api/user/auth -login user', async ()=>{
+  it('POST /api/user/auth - login user -', async ()=>{
       const resp = await request(new Server().getApp()).post('/api/user/auth').send(loginUser)
 
       expect(resp.statusCode).toBe(200)
@@ -69,7 +79,22 @@ describe('Pruebas API /user', ()=>{
       expect(resp.body.payload.token).toBeDefined()
   })
 
+  it('PUT /api/user/plus - actualizar user a plus -', async ()=>{
+    const resp = await request(new Server().getApp()).put('/api/user/plus').send()
+    // const resp = await request(new Server().getApp()).put('/api/user/plus').send()
 
+    expect(resp.status).toBe(201)
+    expect(resp.headers['content-type']).toContain('json')
+    expect(resp.body.payload.user.email).toBe(authRegularUser.email)
+    expect(resp.body.payload.user.name).toBe(authRegularUser.name)
+    expect(resp.body.payload.user.lastName).toBe(authRegularUser.lastName)
+    expect(resp.body.payload.user.status).toBe(true)
+    expect(resp.body.payload.user.typeAccount).toBe('plus')
+    expect(resp.body.payload.user.balance).toBe(authRegularUser.balance)
+    expect(resp.body.payload.user.cart).toBeInstanceOf(Array)
+    expect(resp.body.payload.user.history).toBeInstanceOf(Array)
+    expect(resp.body.payload.token).toBeDefined()
+  })
 
 
   // describe('PUT /api/user/plus -actualizar user a plus-', ()=>{

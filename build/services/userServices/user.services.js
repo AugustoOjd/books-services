@@ -64,7 +64,13 @@ class RegisterRegularUser {
                     };
                 }
                 const validPassDB = (0, bcryptConfig_1.validPassword)(user, password);
-                const token = jsonwebtoken_1.default.sign({ token: user._id, iat: 60 * 60 * 7 }, process.env.JWT_KEY);
+                const token = jsonwebtoken_1.default.sign({ token: user._id }, process.env.JWT_KEY, { expiresIn: '1h' });
+                if (!token) {
+                    throw {
+                        code: this.code = 405,
+                        error: this.error = 'Error en generar token'
+                    };
+                }
                 if (!validPassDB) {
                     throw {
                         code: this.code = 404,
@@ -84,6 +90,59 @@ class RegisterRegularUser {
                         history: user.history
                     },
                     token
+                };
+            }
+            catch (error) {
+                throw {
+                    code: this.code,
+                    error: this.error
+                };
+            }
+        });
+    }
+    updateUserToPlus(tokenQuery) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const userId = jsonwebtoken_1.default.verify(tokenQuery.token, process.env.JWT_KEY);
+                if (!userId) {
+                    throw {
+                        code: this.code = 403,
+                        error: this.error = 'Token no valido'
+                    };
+                }
+                const user = yield user_schema_1.UserModel.findById(userId);
+                if (!user) {
+                    throw {
+                        code: this.code = 403,
+                        error: this.error = 'User no encontrado'
+                    };
+                }
+                if (user.balance < 500) {
+                    throw {
+                        code: this.code = 403,
+                        error: this.error = 'No hay suficiente balance, minimo 500'
+                    };
+                }
+                const userUpdated = yield user_schema_1.UserModel.updateOne({ _id: userId }, { typeAccount: 'plus', balance: 2000 });
+                if (!userUpdated) {
+                    throw {
+                        code: this.code = 500,
+                        error: this.error = 'Error en actualizar user en db'
+                    };
+                }
+                return {
+                    userData: {
+                        name: user.name,
+                        lastName: user.lastName,
+                        email: user.email,
+                        country: user.lastName,
+                        status: user.status,
+                        typeAccount: user.typeAccount,
+                        balance: user.balance,
+                        cart: user.cart,
+                        history: user.history
+                    },
+                    tokenQuery
                 };
             }
             catch (error) {

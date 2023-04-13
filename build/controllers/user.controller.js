@@ -15,7 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.updatePlus = exports.loginUser = exports.regiterUser = exports.getUsers = void 0;
 const express_1 = require("express");
 const user_services_1 = __importDefault(require("../services/userServices/user.services"));
-const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const serviceUser = new user_services_1.default();
 const getUsers = (req = express_1.request, res = express_1.response) => __awaiter(void 0, void 0, void 0, function* () {
     return res.status(200).json({
@@ -86,31 +85,65 @@ const updatePlus = (req = express_1.request, res = express_1.response) => __awai
     // const { token } = req.headers
     // console.log(token)
     // const id = jwt.verify(token as string, process.env.JWT_KEY!)
+    // const {token} = req.cookies
+    // const id:any = jwt.verify(token, process.env.JWT_KEY!)
+    // // const idtoken = jwt.verify(token, 'shhhhh', function(err, decoded) {
+    // //     console.log(decoded.foo) // bar
+    // //   });
+    // // let datos ={
+    // //     id: id.token
+    // // }
+    // const data = await UserModel.findById(id.token)
+    // console.log(data)
+    // try {
+    //     return res.status(201).json({
+    //         msg: 'cookie validada correctamente',
+    //         payload: {
+    //             // user: {
+    //             // id: newRegularUser.userData._id,
+    //             // name: newRegularUser.userData.name,
+    //             // lastName: newRegularUser.userData.lastName,
+    //             // email: newRegularUser.userData.email,
+    //             // country: newRegularUser.userData.country,
+    //             // status: newRegularUser.userData.status,
+    //             // balance: newRegularUser.userData.balance,
+    //             // typeAccount: newRegularUser.userData.typeAccount,
+    //             // cart: newRegularUser.userData.cart,
+    //             // history: newRegularUser.userData.history
+    //             // },
+    //             // token: newRegularUser.token
+    //             token: id.token
+    //         }
+    //     })
+    // } catch (error) {
+    //     return res.status(404).json({error: 'error por editar'})
+    // }
     const { token } = req.cookies;
-    const id = jsonwebtoken_1.default.verify(token, process.env.JWT_KEY);
     try {
+        const updatedUserPlus = yield serviceUser.updateUserToPlus(token);
+        if (!token) {
+            throw { error: 'token no encontrado' };
+        }
         return res.status(201).json({
-            msg: 'cookie validada correctamente',
+            msg: 'user actualizado a plus correctamente',
             payload: {
-                // user: {
-                // id: newRegularUser.userData._id,
-                // name: newRegularUser.userData.name,
-                // lastName: newRegularUser.userData.lastName,
-                // email: newRegularUser.userData.email,
-                // country: newRegularUser.userData.country,
-                // status: newRegularUser.userData.status,
-                // balance: newRegularUser.userData.balance,
-                // typeAccount: newRegularUser.userData.typeAccount,
-                // cart: newRegularUser.userData.cart,
-                // history: newRegularUser.userData.history
-                // },
-                // token: newRegularUser.token
-                token: id
+                user: {
+                    name: updatedUserPlus.userData.name,
+                    lastName: updatedUserPlus.userData.lastName,
+                    email: updatedUserPlus.userData.email,
+                    country: updatedUserPlus.userData.country,
+                    status: updatedUserPlus.userData.status,
+                    balance: updatedUserPlus.userData.balance,
+                    typeAccount: updatedUserPlus.userData.typeAccount,
+                    cart: updatedUserPlus.userData.cart,
+                    history: updatedUserPlus.userData.history
+                },
+                token: updatedUserPlus.tokenQuery
             }
         });
     }
     catch (error) {
-        return res.status(404).json({ error: 'error por editar' });
+        return res.status(404).json({ error: error });
     }
 });
 exports.updatePlus = updatePlus;

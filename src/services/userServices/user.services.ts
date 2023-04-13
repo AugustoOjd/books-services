@@ -3,7 +3,6 @@ import UserBuilder from "../../models/UsersManagers/UserBuilder"
 import UserDirector from "../../models/UsersManagers/UserDirector"
 import jwt from 'jsonwebtoken'
 import { validPassword } from "../../utils/bcryptConfig"
-import { IUser } from "../../interfaces/Users/IUser"
 
 type ResponseLoginUser = {
     _id             : string
@@ -81,7 +80,15 @@ export default class RegisterRegularUser {
             }
 
             const validPassDB = validPassword(user, password)
-            const token = jwt.sign({token: user._id, iat: 60*60*7 }, process.env.JWT_KEY!)
+
+            const token = jwt.sign({token: user._id}, process.env.JWT_KEY!, {expiresIn: '1h'})
+
+            if(!token){
+                throw {
+                    code: this.code = 405,
+                    error: this.error = 'Error en generar token'
+                };
+            }
 
             if(!validPassDB){
                 throw {
@@ -114,5 +121,62 @@ export default class RegisterRegularUser {
         }
     }
 
-    
+    public async updateUserToPlus(tokenQuery: any){
+
+        try {
+            const userId = jwt.verify(tokenQuery.token, process.env.JWT_KEY!)
+
+            if(!userId){
+                throw {
+                    code: this.code = 403,
+                    error: this.error = 'Token no valido'
+                }
+            }
+
+            const user: ResponseLoginUser | null = await UserModel.findById(userId)
+            if(!user){
+                throw {
+                    code: this.code = 403,
+                    error: this.error = 'User no encontrado'
+                }
+            }
+
+            if(user.balance < 500){
+                throw {
+                    code: this.code = 403,
+                    error: this.error = 'No hay suficiente balance, minimo 500'
+                }
+            }
+
+            const userUpdated = await UserModel.updateOne({_id: userId }, {typeAccount: 'plus', balance: 2000} )
+            if(!userUpdated){
+                throw {
+                    code: this.code = 500,
+                    error: this.error = 'Error en actualizar user en db'
+                }
+            }
+            
+            return {
+                userData:{
+                    name            : user.name,
+                    lastName        : user.lastName,
+                    email           : user.email,   
+                    country         : user.lastName,
+                    status          : user.status,
+                    typeAccount     : user.typeAccount,
+                    balance         : user.balance,   
+                    cart            : user.cart,   
+                    history         : user.history
+                },
+                tokenQuery
+            }
+
+        } catch (error) {
+            throw {
+                code: this.code,
+                error: this.error
+            }
+        }
+
+    }
 }
