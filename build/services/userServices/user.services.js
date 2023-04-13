@@ -24,10 +24,9 @@ class RegisterRegularUser {
         this.error = '';
         this.code = 200;
     }
-    registerRegularUser(name, lastName, email, country, password, status = true, balance = 1000) {
+    registerRegularUser(name, lastName, email, country, password) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                this.userDirector.createRegularUser(name, lastName, email, country, password, status, balance);
                 let valideEmail = yield user_schema_1.UserModel.findOne({ email: email });
                 if (valideEmail) {
                     throw {
@@ -35,11 +34,10 @@ class RegisterRegularUser {
                         error: this.error = 'Email already exists'
                     };
                 }
+                this.userDirector.createRegularUser(name, lastName, email, country, password);
                 const user = this.userBuilder.build();
                 const data = yield user_schema_1.UserModel.create(user);
-                // Math.floor(Date.now() / 1000) - 30
-                // 60*60*7
-                const token = jsonwebtoken_1.default.sign({ token: data._id, iat: 60 * 60 * 7 }, process.env.JWT_KEY);
+                const token = jsonwebtoken_1.default.sign({ token: data._id }, process.env.JWT_KEY, { expiresIn: '1h' });
                 return {
                     userData: data,
                     token
@@ -47,8 +45,8 @@ class RegisterRegularUser {
             }
             catch (error) {
                 throw {
-                    code: this.code,
-                    error: this.error
+                    code: this.code = 500,
+                    error: this.error = 'Error en register regular user'
                 };
             }
         });
@@ -86,6 +84,8 @@ class RegisterRegularUser {
                         status: user.status,
                         typeAccount: user.typeAccount,
                         balance: user.balance,
+                        discount: user.discount,
+                        freeShipping: user.freeShipping,
                         cart: user.cart,
                         history: user.history
                     },
@@ -103,14 +103,14 @@ class RegisterRegularUser {
     updateUserToPlus(tokenQuery) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const userId = jsonwebtoken_1.default.verify(tokenQuery.token, process.env.JWT_KEY);
-                if (!userId) {
+                const userId = jsonwebtoken_1.default.verify(tokenQuery, process.env.JWT_KEY);
+                if (!userId.token) {
                     throw {
                         code: this.code = 403,
                         error: this.error = 'Token no valido'
                     };
                 }
-                const user = yield user_schema_1.UserModel.findById(userId);
+                const user = yield user_schema_1.UserModel.findById(userId.token);
                 if (!user) {
                     throw {
                         code: this.code = 403,
@@ -123,7 +123,17 @@ class RegisterRegularUser {
                         error: this.error = 'No hay suficiente balance, minimo 500'
                     };
                 }
-                const userUpdated = yield user_schema_1.UserModel.updateOne({ _id: userId }, { typeAccount: 'plus', balance: 2000 });
+                if (user.typeAccount === 'premium') {
+                    throw {
+                        code: this.code = 403,
+                        error: this.error = 'No puedes pasar de premium a plus'
+                    };
+                }
+                this.userDirector.createPlusUser(user._id, user.name, user.lastName, user.email, user.country, user.password, user.registerDate, user.cart, user.history);
+                const userPlus = this.userBuilder.build();
+                const userUpdated = yield user_schema_1.UserModel.findByIdAndUpdate(userId.token, userPlus, {
+                    new: true
+                }).lean();
                 if (!userUpdated) {
                     throw {
                         code: this.code = 500,
@@ -132,23 +142,84 @@ class RegisterRegularUser {
                 }
                 return {
                     userData: {
-                        name: user.name,
-                        lastName: user.lastName,
-                        email: user.email,
-                        country: user.lastName,
-                        status: user.status,
-                        typeAccount: user.typeAccount,
-                        balance: user.balance,
-                        cart: user.cart,
-                        history: user.history
+                        name: userUpdated.name,
+                        lastName: userUpdated.lastName,
+                        email: userUpdated.email,
+                        country: userUpdated.lastName,
+                        status: userUpdated.status,
+                        typeAccount: userUpdated.typeAccount,
+                        balance: userUpdated.balance,
+                        discount: userUpdated.discount,
+                        freeShipping: userUpdated.freeShipping,
+                        cart: userUpdated.cart,
+                        history: userUpdated.history
                     },
                     tokenQuery
                 };
             }
             catch (error) {
                 throw {
-                    code: this.code,
-                    error: this.error
+                    code: this.code = 500,
+                    error: this.error = "Error en services update plus user"
+                };
+            }
+        });
+    }
+    updateUserToPremium(tokenQuery) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const userId = jsonwebtoken_1.default.verify(tokenQuery, process.env.JWT_KEY);
+                if (!userId.token) {
+                    throw {
+                        code: this.code = 403,
+                        error: this.error = 'Token no valido'
+                    };
+                }
+                let user = yield user_schema_1.UserModel.findById(userId.token);
+                if (!user) {
+                    throw {
+                        code: this.code = 403,
+                        error: this.error = 'User no encontrado'
+                    };
+                }
+                if (user.balance < 1000) {
+                    throw {
+                        code: this.code = 403,
+                        error: this.error = 'No hay suficiente balance, minimo 1000'
+                    };
+                }
+                this.userDirector.createPremiumUser(user._id, user.name, user.lastName, user.email, user.country, user.password, user.registerDate, user.cart, user.history);
+                const premiumUser = this.userBuilder.build();
+                const userUpdated = yield user_schema_1.UserModel.findByIdAndUpdate(userId.token, premiumUser, {
+                    new: true
+                }).lean();
+                if (!userUpdated) {
+                    throw {
+                        code: this.code = 500,
+                        error: this.error = 'Error en actualizar user en db'
+                    };
+                }
+                return {
+                    userData: {
+                        name: userUpdated.name,
+                        lastName: userUpdated.lastName,
+                        email: userUpdated.email,
+                        country: userUpdated.lastName,
+                        status: userUpdated.status,
+                        typeAccount: userUpdated.typeAccount,
+                        balance: userUpdated.balance,
+                        discount: userUpdated.discount,
+                        freeShipping: userUpdated.freeShipping,
+                        cart: userUpdated.cart,
+                        history: userUpdated.history
+                    },
+                    tokenQuery
+                };
+            }
+            catch (error) {
+                throw {
+                    code: this.code = 500,
+                    error: this.error = "Error en services update premium user"
                 };
             }
         });

@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { regiterUser, getUsers, updatePlus, loginUser } from '../controllers/user.controller'
+import { regiterUser, getUsers, updatePlus, loginUser, updatePremium } from '../controllers/user.controller'
 import { validateRegister } from '../middlewares/validateRegister'
 import { userValidateSchema } from '../validations/createUserValidation'
 
@@ -13,6 +13,8 @@ router.post('/', validateRegister(userValidateSchema),regiterUser)
 router.post('/auth', loginUser)
 
 router.put('/plus', updatePlus)
+
+router.put('/premium', updatePremium)
 
 router.get('/', getUsers)
 

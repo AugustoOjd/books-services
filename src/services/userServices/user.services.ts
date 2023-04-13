@@ -11,8 +11,13 @@ type ResponseLoginUser = {
     email           : string
     country         : string
     status          : boolean
+    password?       : string;
     typeAccount     : string
     balance         : number
+    discount        : number  
+    freeShipping    : boolean
+    registerDate?   : Date
+
     cart            : []
     history         : []
 }
@@ -32,9 +37,8 @@ export default class RegisterRegularUser {
         this.code = 200
     }
 
-    public async registerRegularUser(name: string, lastName: string, email: string, country: string, password: string, status: boolean = true, balance: number = 1000){
+    public async registerRegularUser(name: string, lastName: string, email: string, country: string, password: string){
         try {
-            this.userDirector.createRegularUser(name, lastName, email, country, password, status, balance)
             
             let valideEmail = await UserModel.findOne({email: email})
             
@@ -45,14 +49,13 @@ export default class RegisterRegularUser {
                 };
                 
             }
-            
+            this.userDirector.createRegularUser(name, lastName, email, country, password)
             
             const user = this.userBuilder.build()
             const data = await UserModel.create(user)
             
-            // Math.floor(Date.now() / 1000) - 30
-            // 60*60*7
-            const token = jwt.sign({token: data._id, iat: 60*60*7 }, process.env.JWT_KEY!)
+            const token = jwt.sign({token: data._id}, process.env.JWT_KEY!, {expiresIn: '1h'})
+            
 
             return {
                 userData: data,
@@ -61,8 +64,8 @@ export default class RegisterRegularUser {
 
         } catch (error) {
             throw {
-                code: this.code,
-                error: this.error
+                code: this.code = 500,
+                error: this.error = 'Error en register regular user'
             };
         }
     }
@@ -105,7 +108,9 @@ export default class RegisterRegularUser {
                     country         : user.lastName,
                     status          : user.status,
                     typeAccount     : user.typeAccount,
-                    balance         : user.balance,   
+                    balance         : user.balance,
+                    discount        : user.discount,
+                    freeShipping    : user.freeShipping,   
                     cart            : user.cart,   
                     history         : user.history
                 },
@@ -121,34 +126,56 @@ export default class RegisterRegularUser {
         }
     }
 
-    public async updateUserToPlus(tokenQuery: any){
+    public async updateUserToPlus(tokenQuery: string){
 
         try {
-            const userId = jwt.verify(tokenQuery.token, process.env.JWT_KEY!)
+            const userId:any = jwt.verify(tokenQuery, process.env.JWT_KEY!)
 
-            if(!userId){
+            if(!userId.token){
                 throw {
                     code: this.code = 403,
                     error: this.error = 'Token no valido'
                 }
             }
 
-            const user: ResponseLoginUser | null = await UserModel.findById(userId)
+            const user: ResponseLoginUser | null = await UserModel.findById(userId.token)
+
             if(!user){
                 throw {
                     code: this.code = 403,
                     error: this.error = 'User no encontrado'
                 }
             }
-
             if(user.balance < 500){
                 throw {
                     code: this.code = 403,
                     error: this.error = 'No hay suficiente balance, minimo 500'
                 }
             }
+            if(user.typeAccount === 'premium'){
+                throw{
+                    code: this.code = 403,
+                    error: this.error = 'No puedes pasar de premium a plus'
+                }
+            }
 
-            const userUpdated = await UserModel.updateOne({_id: userId }, {typeAccount: 'plus', balance: 2000} )
+            this.userDirector.createPlusUser(
+                user._id, 
+                user.name, 
+                user.lastName, 
+                user.email, 
+                user.country, 
+                user.password!, 
+                user.registerDate!, 
+                user.cart, 
+                user.history)
+
+            const userPlus = this.userBuilder.build() 
+
+            const userUpdated = await UserModel.findByIdAndUpdate(userId.token, userPlus, {
+                new: true
+            }).lean()
+
             if(!userUpdated){
                 throw {
                     code: this.code = 500,
@@ -158,25 +185,107 @@ export default class RegisterRegularUser {
             
             return {
                 userData:{
-                    name            : user.name,
-                    lastName        : user.lastName,
-                    email           : user.email,   
-                    country         : user.lastName,
-                    status          : user.status,
-                    typeAccount     : user.typeAccount,
-                    balance         : user.balance,   
-                    cart            : user.cart,   
-                    history         : user.history
+                    name            : userUpdated.name,
+                    lastName        : userUpdated.lastName,
+                    email           : userUpdated.email,   
+                    country         : userUpdated.lastName,
+                    status          : userUpdated.status,
+                    typeAccount     : userUpdated.typeAccount,
+                    balance         : userUpdated.balance,
+                    discount        : userUpdated.discount,
+                    freeShipping    : userUpdated.freeShipping,   
+                    cart            : userUpdated.cart,   
+                    history         : userUpdated.history
                 },
                 tokenQuery
             }
 
         } catch (error) {
             throw {
-                code: this.code,
-                error: this.error
+                code: this.code = 500,
+                error: this.error = "Error en services update plus user"
             }
         }
 
     }
+
+    public async updateUserToPremium(tokenQuery: string){
+
+        try {
+            const userId:any = jwt.verify(tokenQuery, process.env.JWT_KEY!)
+            if(!userId.token){
+                throw {
+                    code: this.code = 403,
+                    error: this.error = 'Token no valido'
+                }
+            }
+            
+            let user: ResponseLoginUser | null = await UserModel.findById(userId.token)
+            if(!user){
+                throw {
+                    code: this.code = 403,
+                    error: this.error = 'User no encontrado'
+                }
+            }
+            if(user.balance < 1000){
+                throw {
+                    code: this.code = 403,
+                    error: this.error = 'No hay suficiente balance, minimo 1000'
+                }
+            }
+
+             
+            this.userDirector.createPremiumUser(
+                    user._id, 
+                    user.name, 
+                    user.lastName, 
+                    user.email, 
+                    user.country, 
+                    user.password!, 
+                    user.registerDate!, 
+                    user.cart, 
+                    user.history)
+
+            const premiumUser = this.userBuilder.build()
+
+            const userUpdated = await UserModel.findByIdAndUpdate(userId.token, premiumUser, {
+                new: true
+            }).lean()
+
+            if(!userUpdated){
+                throw {
+                    code: this.code = 500,
+                    error: this.error = 'Error en actualizar user en db'
+                }
+            }
+
+            return {
+                userData:{
+                    name            : userUpdated.name,
+                    lastName        : userUpdated.lastName,
+                    email           : userUpdated.email,   
+                    country         : userUpdated.lastName,
+                    status          : userUpdated.status,
+                    typeAccount     : userUpdated.typeAccount,
+                    balance         : userUpdated.balance,
+                    discount        : userUpdated.discount,
+                    freeShipping    : userUpdated.freeShipping,
+                    cart            : userUpdated.cart,   
+                    history         : userUpdated.history
+                },
+                tokenQuery
+            }
+
+        } catch (error) {
+            throw {
+                code: this.code = 500,
+                error: this.error = "Error en services update premium user"
+            }
+        }
+    
+    
+    }
+
+
+
 }

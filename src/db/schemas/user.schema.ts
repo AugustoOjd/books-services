@@ -10,7 +10,10 @@ const userSchema = new Schema({
     status:         { type: Boolean, require: true},
     typeAccount:    { type: String, require: true, default: 'regular'},
     balance:        { type: Number, require: true},
+    discount:       { type: Number, require: true},
+    freeShipping:   { type: Boolean, require: true},
     registerDate:   { type: Date},
+    updatedDate:    { type: Date},
     cart:           { type: []},
     history:        { type: []},
 });

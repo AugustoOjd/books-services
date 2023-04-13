@@ -15,8 +15,11 @@ class UserBuilder {
             this.status = false,
             this.typeAccount = 'regular',
             this.balance = 0,
+            this.discount = 0,
+            this.freeShipping = false,
             this.registerDate = null,
-            this.cart = [],
+            this.updatedDate = null;
+        this.cart = [],
             this.history = [];
     }
     reset() {
@@ -31,6 +34,10 @@ class UserBuilder {
             this.registerDate = null,
             this.cart = [],
             this.history = [];
+    }
+    setId(id) {
+        this.id = id;
+        return this;
     }
     setName(name) {
         this.name = name.toLocaleLowerCase();
@@ -64,8 +71,28 @@ class UserBuilder {
         this.balance = balance;
         return this;
     }
+    setDiscount(discount) {
+        this.discount = discount;
+        return this;
+    }
+    setFreeShipping(freeShipping) {
+        this.freeShipping = freeShipping;
+        return this;
+    }
     setRegisterDate(registerDate) {
         this.registerDate = registerDate;
+        return this;
+    }
+    setUpdatedDate(updatedDate) {
+        this.updatedDate = updatedDate;
+        return this;
+    }
+    setCart(cart) {
+        this.cart = cart;
+        return this;
+    }
+    setHistory(history) {
+        this.history = history;
         return this;
     }
     addCart(item) {
@@ -77,7 +104,7 @@ class UserBuilder {
         return this;
     }
     build() {
-        const user = new User_1.default(this.name, this.lastName, this.email, this.password, this.country, this.status, this.typeAccount, this.balance, this.registerDate, this.cart, this.history);
+        const user = new User_1.default(this.name, this.lastName, this.email, this.password, this.country, this.status, this.typeAccount, this.balance, this.discount, this.freeShipping, this.registerDate, this.updatedDate, this.cart, this.history);
         this.reset();
         return user;
     }

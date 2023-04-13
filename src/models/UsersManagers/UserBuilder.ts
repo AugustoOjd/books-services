@@ -3,6 +3,7 @@ import { hashPassword } from "../../utils/bcryptConfig";
 import User from "./User";
 
 export default class UserBuilder implements IUserBuilder{
+    id?:                string;
     name:               string;
     lastName:           string;
     email:              string;
@@ -11,7 +12,10 @@ export default class UserBuilder implements IUserBuilder{
     status:             boolean;
     typeAccount:        TAccount;
     balance:            number;
+    discount:           number;
+    freeShipping:       boolean;    
     registerDate:       Date | null;
+    updatedDate:        Date | null;
     cart:               {}[];
     history:            {}[];
 
@@ -23,8 +27,11 @@ export default class UserBuilder implements IUserBuilder{
         this.country        = "",     
         this.status         = false,      
         this.typeAccount    = 'regular', 
-        this.balance        = 0,     
+        this.balance        = 0,
+        this.discount       = 0,
+        this.freeShipping   = false,
         this.registerDate   = null,
+        this.updatedDate    = null;
         this.cart           = [],        
         this.history        = []
     }
@@ -41,6 +48,11 @@ export default class UserBuilder implements IUserBuilder{
         this.registerDate =   null,
         this.cart         =   [],        
         this.history      =   []
+    }
+
+    setId(id: string): IUserBuilder {
+        this.id = id
+        return this
     }
 
     setName(name: string): IUserBuilder {
@@ -83,10 +95,37 @@ export default class UserBuilder implements IUserBuilder{
         return this
     }
 
+    setDiscount(discount: number): IUserBuilder {
+        this.discount = discount
+        return this
+    }
+
+    setFreeShipping(freeShipping: boolean): IUserBuilder {
+        this.freeShipping = freeShipping
+        return this
+    }
+
     setRegisterDate(registerDate: Date): IUserBuilder {
         this.registerDate = registerDate
         return this
     }
+
+    setUpdatedDate(updatedDate: Date | null): IUserBuilder {
+        this.updatedDate = updatedDate
+        return this
+    }
+
+    setCart(cart: []): IUserBuilder{
+        this.cart = cart
+        return this
+    }
+    
+    setHistory(history: []): IUserBuilder {
+        this.history = history
+        return this
+    }
+
+
 
     addCart(item: {}): IUserBuilder {
         this.cart.push(item)
@@ -107,8 +146,11 @@ export default class UserBuilder implements IUserBuilder{
             this.country,     
             this.status,      
             this.typeAccount, 
-            this.balance,     
+            this.balance,
+            this.discount,
+            this.freeShipping,  
             this.registerDate,
+            this.updatedDate,
             this.cart,        
             this.history,     
         )

@@ -59,6 +59,8 @@ describe('Pruebas API /user', ()=>{
       expect(resp.body.payload.user.email).toBe(newUser.email)
       expect(resp.body.payload.user.typeAccount).toBe('regular')
       expect(resp.body.payload.user.balance).toBe(1000)
+      expect(resp.body.payload.user.discount).toBe(0)
+      expect(resp.body.payload.user.freeShipping).toBe(false)
       expect(resp.body.payload.user.cart).toBeInstanceOf(Array)
       expect(resp.body.payload.user.history).toBeInstanceOf(Array)
       expect(resp.body.payload.token).toBeDefined()
@@ -80,51 +82,46 @@ describe('Pruebas API /user', ()=>{
   })
 
   it('PUT /api/user/plus - actualizar user a plus -', async ()=>{
-    const resp = await request(new Server().getApp()).put('/api/user/plus').send()
-    // const resp = await request(new Server().getApp()).put('/api/user/plus').send()
 
-    expect(resp.status).toBe(201)
-    expect(resp.headers['content-type']).toContain('json')
-    expect(resp.body.payload.user.email).toBe(authRegularUser.email)
-    expect(resp.body.payload.user.name).toBe(authRegularUser.name)
-    expect(resp.body.payload.user.lastName).toBe(authRegularUser.lastName)
-    expect(resp.body.payload.user.status).toBe(true)
-    expect(resp.body.payload.user.typeAccount).toBe('plus')
-    expect(resp.body.payload.user.balance).toBe(authRegularUser.balance)
-    expect(resp.body.payload.user.cart).toBeInstanceOf(Array)
-    expect(resp.body.payload.user.history).toBeInstanceOf(Array)
-    expect(resp.body.payload.token).toBeDefined()
+    const respLogin = await request(new Server().getApp()).post('/api/user/auth').send(loginUser)
+
+    const respUpdate = await request(new Server().getApp()).put('/api/user/plus').set('Cookie', [`token=${respLogin.body.payload.token}`])
+
+    expect(respUpdate.status).toBe(201)
+    expect(respUpdate.headers['content-type']).toContain('json')
+    expect(respUpdate.body.payload.user.email).toBe(authRegularUser.email)
+    expect(respUpdate.body.payload.user.name).toBe(authRegularUser.name)
+    expect(respUpdate.body.payload.user.lastName).toBe(authRegularUser.lastName)
+    expect(respUpdate.body.payload.user.status).toBe(true)
+    expect(respUpdate.body.payload.user.typeAccount).toBe('plus')
+    expect(respUpdate.body.payload.user.discount).toBe(0.25)
+    expect(respUpdate.body.payload.user.balance).toBe(1500)
+    expect(respUpdate.body.payload.user.cart).toBeInstanceOf(Array)
+    expect(respUpdate.body.payload.user.history).toBeInstanceOf(Array)
+    expect(respUpdate.body.payload.token).toBe(respLogin.body.payload.token)
   })
 
-
-  // describe('PUT /api/user/plus -actualizar user a plus-', ()=>{
-
-  //   afterAll(async ()=>{
-  //     await UserModel.deleteMany({ email: newUser.email })
-  //   })
-
-  //   it('PUT /api/user/plus actualizar typeAccount', async ()=>{
-  //     const resp = await request(new Server().getApp()).put('/api/user/plus').send(newUser)
-
-  //     expect(resp.status).toBe(201)
-  //     expect(resp.headers['content-type']).toContain('json')
-  //     expect(resp.body.payload.user.id).toBeDefined()
-  //     expect(resp.body.payload.user.name).toBe(newUser.name)
-  //     expect(resp.body.payload.user.lastName).toBe(newUser.lastName)
-  //     expect(resp.body.payload.user.email).toBe(newUser.email)
-  //     expect(resp.body.payload.user.typeAccount).toBe('plus')
-  //     expect(resp.body.payload.user.balance).toBe(2000)
-      
-  //     // Object.defineProperty(window.document, 'cookie', {
-  //     //   writable: true,
-  //     //   value: 'token',
-  //     // });
-
-  //   })
-
-  // })
+  it('PUT /api/user/premium - actulizar user a premium -', async ()=>{
+    
+    const respLogin = await request(new Server().getApp()).post('/api/user/auth').send(loginUser)
+    console.log(respLogin.body.payload.token)
+    const respUpdate = await request(new Server().getApp()).put('/api/user/premium').set('Cookie', [`token=${respLogin.body.payload.token}`])
 
 
+    expect(respUpdate.status).toBe(201)
+    expect(respUpdate.headers['content-type']).toContain('json')
+    expect(respUpdate.body.payload.user.email).toBe(authRegularUser.email)
+    expect(respUpdate.body.payload.user.name).toBe(authRegularUser.name)
+    expect(respUpdate.body.payload.user.lastName).toBe(authRegularUser.lastName)
+    expect(respUpdate.body.payload.user.status).toBe(true)
+    expect(respUpdate.body.payload.user.typeAccount).toBe('premium')
+    expect(respUpdate.body.payload.user.balance).toBe(2500)
+    expect(respUpdate.body.payload.user.discount).toBe(0.5)
+    expect(respUpdate.body.payload.user.cart).toBeInstanceOf(Array)
+    expect(respUpdate.body.payload.user.history).toBeInstanceOf(Array)
+    expect(respUpdate.body.payload.token).toBe(respLogin.body.payload.token)
+
+  } )
 
 })
 

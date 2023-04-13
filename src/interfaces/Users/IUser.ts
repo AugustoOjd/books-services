@@ -2,6 +2,7 @@ import { TAccount } from "./IUserBuilder";
 
 
 export interface IUser{
+    _id?:                string;
     name:               string;
     lastName:           string;
     email:              string;
@@ -10,7 +11,10 @@ export interface IUser{
     status:             boolean;
     typeAccount:        TAccount;
     balance:            number;
+    discount:           number;
+    freeShipping:       boolean;
     registerDate:       Date | null;
+    updatedDate:        Date | null;
     cart:               {}[];
     history:            {}[];
     // verifyLogin():      boolean

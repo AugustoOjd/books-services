@@ -11,7 +11,10 @@ export default class User {
     private status:             boolean;
     private typeAccount:        TAccount;
     private balance:            number;
+    private discount:           number;
+    private freeShipping:       boolean;
     private registerDate:       Date | null;
+    private updatedDate:        Date | null;
     private cart:               {}[];
     private history:            {}[];
 
@@ -24,8 +27,11 @@ export default class User {
         country:        string,
         status:         boolean,
         typeAccount:    TAccount,
-        balance:        number, 
+        balance:        number,
+        discount:       number,
+        freeShipping:   boolean,
         registerDate:   Date | null,
+        updatedDate:    Date | null,
         cart:           {}[],
         history:        {}[]
         ){
@@ -37,7 +43,10 @@ export default class User {
         this.status =        status
         this.typeAccount =   typeAccount
         this.balance =       balance
+        this.discount =      discount
+        this.freeShipping =  freeShipping
         this.registerDate =  registerDate
+        this.updatedDate =   updatedDate
         this.cart =          cart
         this.history =       history
     }

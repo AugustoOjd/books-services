@@ -18,18 +18,75 @@ export default class UserDirector {
         email: string,
         country: string, 
         password: string, 
-        status: boolean, 
-        balance: number,     
         ){
             this.userBuilder    .setName(name)
                                 .setLastName(lastName)
                                 .setEmail(email)
                                 .setCountry(country)
                                 .setPassword(password)
-                                .setStatus(status)
+                                .setStatus(true)
                                 .setTypeAccount('regular')
-                                .setBalance(balance)
+                                .setBalance(1000)
+                                .setDiscount(0)
+                                .setFreeShipping(false)
                                 .setRegisterDate(new Date())
+                                .setUpdatedDate(new Date())
+    }
+
+    createPlusUser(
+        id: string,
+        name: string, 
+        lastName: string, 
+        email: string,
+        country: string, 
+        password: string, 
+        registerDate: Date,
+        cart: [],
+        history: []
+    ){
+        this.userBuilder        .setId(id)
+                                .setName(name)
+                                .setLastName(lastName)
+                                .setEmail(email)
+                                .setCountry(country)
+                                .setPassword(password)
+                                .setStatus(true)
+                                .setTypeAccount('plus')
+                                .setBalance(1500)
+                                .setDiscount(0.25)
+                                .setFreeShipping(false)
+                                .setRegisterDate(registerDate)
+                                .setUpdatedDate(new Date())
+                                .setCart(cart)
+                                .setHistory(history)
+    }
+
+    createPremiumUser(
+        id: string,
+        name: string, 
+        lastName: string, 
+        email: string,
+        country: string, 
+        password: string, 
+        registerDate: Date,
+        cart: [],
+        history: []
+    ){
+        this.userBuilder        .setId(id)
+                                .setName(name)
+                                .setLastName(lastName)
+                                .setEmail(email)
+                                .setCountry(country)
+                                .setPassword(password)
+                                .setStatus(true)
+                                .setTypeAccount('premium')
+                                .setBalance(2500)
+                                .setDiscount(0.5)
+                                .setFreeShipping(true)
+                                .setRegisterDate(registerDate)
+                                .setUpdatedDate(new Date())
+                                .setCart(cart)
+                                .setHistory(history)
     }
 
 }

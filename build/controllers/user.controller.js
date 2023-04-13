@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updatePlus = exports.loginUser = exports.regiterUser = exports.getUsers = void 0;
+exports.updatePremium = exports.updatePlus = exports.loginUser = exports.regiterUser = exports.getUsers = void 0;
 const express_1 = require("express");
 const user_services_1 = __importDefault(require("../services/userServices/user.services"));
 const serviceUser = new user_services_1.default();
@@ -37,6 +37,8 @@ const regiterUser = (req = express_1.request, res = express_1.response) => __awa
                     country: newRegularUser.userData.country,
                     status: newRegularUser.userData.status,
                     balance: newRegularUser.userData.balance,
+                    discount: newRegularUser.userData.discount,
+                    freeShipping: newRegularUser.userData.freeShipping,
                     typeAccount: newRegularUser.userData.typeAccount,
                     cart: newRegularUser.userData.cart,
                     history: newRegularUser.userData.history
@@ -53,6 +55,7 @@ exports.regiterUser = regiterUser;
 const loginUser = (req = express_1.request, res = express_1.response) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = req.body;
     try {
+        // AGREGAR A UN MIDDLEWARE PORQUE ES INFORMACION EXTERNA
         if (!email || !password) {
             return res.status(404).json({ msg: 'Debe recibir email y password' });
         }
@@ -61,17 +64,19 @@ const loginUser = (req = express_1.request, res = express_1.response) => __await
             msg: 'Login Succcess',
             payload: {
                 user: {
-                    name: LoginData === null || LoginData === void 0 ? void 0 : LoginData.userData.name,
-                    lastName: LoginData === null || LoginData === void 0 ? void 0 : LoginData.userData.lastName,
-                    email: LoginData === null || LoginData === void 0 ? void 0 : LoginData.userData.email,
-                    country: LoginData === null || LoginData === void 0 ? void 0 : LoginData.userData.country,
-                    status: LoginData === null || LoginData === void 0 ? void 0 : LoginData.userData.status,
-                    balance: LoginData === null || LoginData === void 0 ? void 0 : LoginData.userData.balance,
-                    typeAccount: LoginData === null || LoginData === void 0 ? void 0 : LoginData.userData.typeAccount,
-                    cart: LoginData === null || LoginData === void 0 ? void 0 : LoginData.userData.cart,
-                    history: LoginData === null || LoginData === void 0 ? void 0 : LoginData.userData.history
+                    name: LoginData.userData.name,
+                    lastName: LoginData.userData.lastName,
+                    email: LoginData.userData.email,
+                    country: LoginData.userData.country,
+                    status: LoginData.userData.status,
+                    balance: LoginData.userData.balance,
+                    discount: LoginData.userData.discount,
+                    freeShipping: LoginData.userData.freeShipping,
+                    typeAccount: LoginData.userData.typeAccount,
+                    cart: LoginData.userData.cart,
+                    history: LoginData.userData.history
                 },
-                token: LoginData === null || LoginData === void 0 ? void 0 : LoginData.token
+                token: LoginData.token
             }
         });
     }
@@ -81,49 +86,12 @@ const loginUser = (req = express_1.request, res = express_1.response) => __await
 });
 exports.loginUser = loginUser;
 const updatePlus = (req = express_1.request, res = express_1.response) => __awaiter(void 0, void 0, void 0, function* () {
-    // headers funciona
-    // const { token } = req.headers
-    // console.log(token)
-    // const id = jwt.verify(token as string, process.env.JWT_KEY!)
-    // const {token} = req.cookies
-    // const id:any = jwt.verify(token, process.env.JWT_KEY!)
-    // // const idtoken = jwt.verify(token, 'shhhhh', function(err, decoded) {
-    // //     console.log(decoded.foo) // bar
-    // //   });
-    // // let datos ={
-    // //     id: id.token
-    // // }
-    // const data = await UserModel.findById(id.token)
-    // console.log(data)
-    // try {
-    //     return res.status(201).json({
-    //         msg: 'cookie validada correctamente',
-    //         payload: {
-    //             // user: {
-    //             // id: newRegularUser.userData._id,
-    //             // name: newRegularUser.userData.name,
-    //             // lastName: newRegularUser.userData.lastName,
-    //             // email: newRegularUser.userData.email,
-    //             // country: newRegularUser.userData.country,
-    //             // status: newRegularUser.userData.status,
-    //             // balance: newRegularUser.userData.balance,
-    //             // typeAccount: newRegularUser.userData.typeAccount,
-    //             // cart: newRegularUser.userData.cart,
-    //             // history: newRegularUser.userData.history
-    //             // },
-    //             // token: newRegularUser.token
-    //             token: id.token
-    //         }
-    //     })
-    // } catch (error) {
-    //     return res.status(404).json({error: 'error por editar'})
-    // }
     const { token } = req.cookies;
     try {
-        const updatedUserPlus = yield serviceUser.updateUserToPlus(token);
         if (!token) {
             throw { error: 'token no encontrado' };
         }
+        const updatedUserPlus = yield serviceUser.updateUserToPlus(token);
         return res.status(201).json({
             msg: 'user actualizado a plus correctamente',
             payload: {
@@ -134,6 +102,8 @@ const updatePlus = (req = express_1.request, res = express_1.response) => __awai
                     country: updatedUserPlus.userData.country,
                     status: updatedUserPlus.userData.status,
                     balance: updatedUserPlus.userData.balance,
+                    discount: updatedUserPlus.userData.discount,
+                    freeshipping: updatedUserPlus.userData.freeShipping,
                     typeAccount: updatedUserPlus.userData.typeAccount,
                     cart: updatedUserPlus.userData.cart,
                     history: updatedUserPlus.userData.history
@@ -147,3 +117,35 @@ const updatePlus = (req = express_1.request, res = express_1.response) => __awai
     }
 });
 exports.updatePlus = updatePlus;
+const updatePremium = (req = express_1.request, res = express_1.response) => __awaiter(void 0, void 0, void 0, function* () {
+    const { token } = req.cookies;
+    try {
+        if (!token) {
+            throw { error: 'token no encontrado' };
+        }
+        const updatedPremium = yield serviceUser.updateUserToPremium(token);
+        return res.status(201).json({
+            msg: 'user actualizado a Premium correctamente',
+            payload: {
+                user: {
+                    name: updatedPremium.userData.name,
+                    lastName: updatedPremium.userData.lastName,
+                    email: updatedPremium.userData.email,
+                    country: updatedPremium.userData.country,
+                    status: updatedPremium.userData.status,
+                    balance: updatedPremium.userData.balance,
+                    discount: updatedPremium.userData.discount,
+                    freeShipping: updatedPremium.userData.freeShipping,
+                    typeAccount: updatedPremium.userData.typeAccount,
+                    cart: updatedPremium.userData.cart,
+                    history: updatedPremium.userData.history
+                },
+                token: updatedPremium.tokenQuery
+            }
+        });
+    }
+    catch (error) {
+        return res.status(500).json({ error: error });
+    }
+});
+exports.updatePremium = updatePremium;
