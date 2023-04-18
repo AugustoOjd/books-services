@@ -1,4 +1,5 @@
 import { IUserBuilder, TAccount } from "../../interfaces/Users/IUserBuilder";
+import { hashPassword } from "../../utils/bcryptConfig";
 
 export default class UserDirector {
 
@@ -23,7 +24,7 @@ export default class UserDirector {
                                 .setLastName(lastName)
                                 .setEmail(email)
                                 .setCountry(country)
-                                .setPassword(password)
+                                .setPassword(hashPassword(password) )
                                 .setStatus(true)
                                 .setTypeAccount('regular')
                                 .setBalance(1000)
@@ -44,7 +45,8 @@ export default class UserDirector {
         cart: [],
         history: []
     ){
-        this.userBuilder        .setId(id)
+        this.userBuilder        
+                                .setId(id)
                                 .setName(name)
                                 .setLastName(lastName)
                                 .setEmail(email)

@@ -18,7 +18,7 @@ export const regiterUser = async (req = request, res = response)=>{
     
     try {
         const newRegularUser = await serviceUser.registerRegularUser(name, lastName, email, country, password)
-        
+
         return res.status(201).json({
             msg: 'regular user creando correctamente',
             payload: {
@@ -40,7 +40,7 @@ export const regiterUser = async (req = request, res = response)=>{
         })
 
     } catch (error) {
-        return error
+        return res.status(500).json({error: error})
     }
 
 }
@@ -54,8 +54,6 @@ export const loginUser = async (req = request, res = response) =>{
         if(!email || !password){
             return res.status(404).json({msg: 'Debe recibir email y password'})
         }
-
-
         const LoginData = await serviceUser.loginUser(email, password)
 
         return res.status(200).json({
@@ -80,10 +78,10 @@ export const loginUser = async (req = request, res = response) =>{
         })
 
     } catch (error) {
-        return res.status(404).json({error: error})
+        console.log(error)
+        return res.status(404).json(error)
     }
 }
-
 
 export const updatePlus =  async (req = request, res = response) =>{
 
@@ -124,9 +122,10 @@ export const updatePremium = async (req = request, res = response) =>{
     const { token } = req.cookies
     
     try {
-        if(!token){
-            throw {error: 'token no encontrado'}
-        }
+        // agregar en un middleware
+        // if(!token){
+        //     throw {error: 'token no encontrado'}
+        // }
         
         const updatedPremium = await serviceUser.updateUserToPremium(token)
 
@@ -155,4 +154,17 @@ export const updatePremium = async (req = request, res = response) =>{
     } catch (error) {
         return res.status(500).json({error: error})
     }
+}
+
+export const logoutUser = async (req = request, res = response) =>{
+    try {
+        return res.clearCookie('token').json({
+            msg: 'Logout Success',
+            token: null
+        })
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json(error)
+    }
+
 }

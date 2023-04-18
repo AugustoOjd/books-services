@@ -3,7 +3,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const bcryptConfig_1 = require("../../utils/bcryptConfig");
 const User_1 = __importDefault(require("./User"));
 class UserBuilder {
     constructor() {
@@ -31,7 +30,11 @@ class UserBuilder {
             this.status = false,
             this.typeAccount = 'regular',
             this.balance = 0,
+            this.discount = 0,
+            this.freeShipping = false,
             this.registerDate = null,
+            this.updatedDate = null;
+        this.registerDate = null,
             this.cart = [],
             this.history = [];
     }
@@ -52,7 +55,7 @@ class UserBuilder {
         return this;
     }
     setPassword(password) {
-        this.password = (0, bcryptConfig_1.hashPassword)(password);
+        this.password = password;
         return this;
     }
     setCountry(country) {

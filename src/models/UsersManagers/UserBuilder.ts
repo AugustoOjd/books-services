@@ -1,5 +1,4 @@
 import { IUserBuilder, TAccount } from "../../interfaces/Users/IUserBuilder";
-import { hashPassword } from "../../utils/bcryptConfig";
 import User from "./User";
 
 export default class UserBuilder implements IUserBuilder{
@@ -37,17 +36,21 @@ export default class UserBuilder implements IUserBuilder{
     }
 
     reset():void{
-        this.name         =   "",        
-        this.lastName     =   "",    
-        this.email        =   "",       
-        this.password     =   "",    
-        this.country      =   "",     
-        this.status       =   false,      
-        this.typeAccount  =   'regular', 
-        this.balance      =   0,     
-        this.registerDate =   null,
-        this.cart         =   [],        
-        this.history      =   []
+        this.name           =   "",        
+        this.lastName       =   "",    
+        this.email          =   "",       
+        this.password       =   "",    
+        this.country        =   "",     
+        this.status         =   false,      
+        this.typeAccount    =   'regular', 
+        this.balance        =   0,
+        this.discount       =   0,
+        this.freeShipping   =   false,
+        this.registerDate   =   null,
+        this.updatedDate    =   null;     
+        this.registerDate   =   null,
+        this.cart           =   [],        
+        this.history        =   []
     }
 
     setId(id: string): IUserBuilder {
@@ -71,7 +74,7 @@ export default class UserBuilder implements IUserBuilder{
     }
 
     setPassword(password: string): IUserBuilder {
-        this.password = hashPassword(password) 
+        this.password = password
         return this
     }
 

@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updatePremium = exports.updatePlus = exports.loginUser = exports.regiterUser = exports.getUsers = void 0;
+exports.logoutUser = exports.updatePremium = exports.updatePlus = exports.loginUser = exports.regiterUser = exports.getUsers = void 0;
 const express_1 = require("express");
 const user_services_1 = __importDefault(require("../services/userServices/user.services"));
 const serviceUser = new user_services_1.default();
@@ -48,7 +48,7 @@ const regiterUser = (req = express_1.request, res = express_1.response) => __awa
         });
     }
     catch (error) {
-        return res.status(404).json({ error: error });
+        return res.status(500).json({ error: error });
     }
 });
 exports.regiterUser = regiterUser;
@@ -81,16 +81,14 @@ const loginUser = (req = express_1.request, res = express_1.response) => __await
         });
     }
     catch (error) {
-        return res.status(404).json({ error: error });
+        console.log(error);
+        return res.status(404).json(error);
     }
 });
 exports.loginUser = loginUser;
 const updatePlus = (req = express_1.request, res = express_1.response) => __awaiter(void 0, void 0, void 0, function* () {
     const { token } = req.cookies;
     try {
-        if (!token) {
-            throw { error: 'token no encontrado' };
-        }
         const updatedUserPlus = yield serviceUser.updateUserToPlus(token);
         return res.status(201).json({
             msg: 'user actualizado a plus correctamente',
@@ -120,9 +118,10 @@ exports.updatePlus = updatePlus;
 const updatePremium = (req = express_1.request, res = express_1.response) => __awaiter(void 0, void 0, void 0, function* () {
     const { token } = req.cookies;
     try {
-        if (!token) {
-            throw { error: 'token no encontrado' };
-        }
+        // agregar en un middleware
+        // if(!token){
+        //     throw {error: 'token no encontrado'}
+        // }
         const updatedPremium = yield serviceUser.updateUserToPremium(token);
         return res.status(201).json({
             msg: 'user actualizado a Premium correctamente',
@@ -149,3 +148,16 @@ const updatePremium = (req = express_1.request, res = express_1.response) => __a
     }
 });
 exports.updatePremium = updatePremium;
+const logoutUser = (req = express_1.request, res = express_1.response) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        return res.clearCookie('token').json({
+            msg: 'Logout Success',
+            token: null
+        });
+    }
+    catch (error) {
+        console.log(error);
+        return res.status(500).json(error);
+    }
+});
+exports.logoutUser = logoutUser;

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const bcryptConfig_1 = require("../../utils/bcryptConfig");
 class UserDirector {
     constructor(userBuilder) {
         this.userBuilder = userBuilder;
@@ -12,7 +13,7 @@ class UserDirector {
             .setLastName(lastName)
             .setEmail(email)
             .setCountry(country)
-            .setPassword(password)
+            .setPassword((0, bcryptConfig_1.hashPassword)(password))
             .setStatus(true)
             .setTypeAccount('regular')
             .setBalance(1000)
@@ -22,7 +23,8 @@ class UserDirector {
             .setUpdatedDate(new Date());
     }
     createPlusUser(id, name, lastName, email, country, password, registerDate, cart, history) {
-        this.userBuilder.setId(id)
+        this.userBuilder
+            .setId(id)
             .setName(name)
             .setLastName(lastName)
             .setEmail(email)

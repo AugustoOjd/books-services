@@ -35,6 +35,13 @@ export default class UserServices {
         this.userDirector = new UserDirector(this.userBuilder)
         this.error = ''
         this.code = 200
+
+        this.errorController
+    }
+
+    errorController(message: string, code: number) {
+        this.error = message;
+        this.code = code
     }
 
     public async registerRegularUser(name: string, lastName: string, email: string, country: string, password: string){
@@ -43,11 +50,7 @@ export default class UserServices {
             let valideEmail = await UserModel.findOne({email: email})
             
             if(valideEmail){
-                throw {
-                    code: this.code = 500,
-                    error: this.error = 'Email already exists'
-                };
-                
+                throw this.errorController('Email already exits', 404)
             }
             this.userDirector.createRegularUser(name, lastName, email, country, password)
             
@@ -63,41 +66,31 @@ export default class UserServices {
             }
 
         } catch (error) {
-            throw {
-                code: this.code = 500,
-                error: this.error = 'Error en register regular user'
-            };
+            throw this.errorController('Error register regular user', 500)
         }
     }
 
     public async loginUser(email: string, password: string){
         try {
 
+            if(!email || !password){
+                throw this.errorController('Email and password are require', 404)
+            }
+
             const user: ResponseLoginUser | null = await UserModel.findOne({email: email})
 
             if(!user){
-                throw {
-                    code: this.code = 404,
-                    error: this.error = 'El email es incorrecto'
-                };
+                throw this.errorController('Invalid email', 404) 
+            }
+
+            const token = jwt.sign({token: user._id}, process.env.JWT_KEY!, {expiresIn: '1h'})
+            if(!token){
+                throw this.errorController('Generate token error', 405)
             }
 
             const validPassDB = validPassword(user, password)
-
-            const token = jwt.sign({token: user._id}, process.env.JWT_KEY!, {expiresIn: '1h'})
-
-            if(!token){
-                throw {
-                    code: this.code = 405,
-                    error: this.error = 'Error en generar token'
-                };
-            }
-
             if(!validPassDB){
-                throw {
-                    code: this.code = 404,
-                    error: this.error = 'Incorrect email or password'
-                };
+                throw this.errorController('Incorrect email or password', 404) 
             }
 
             return {
@@ -120,9 +113,9 @@ export default class UserServices {
 
         } catch (error) {
             throw {
-                code: this.code,
-                error: this.error
-            };
+                error: this.error,
+                code: this.code
+            } 
         }
     }
 
@@ -132,33 +125,21 @@ export default class UserServices {
             const userId:any = jwt.verify(tokenQuery, process.env.JWT_KEY!)
 
             if(!userId.token){
-                throw {
-                    code: this.code = 403,
-                    error: this.error = 'Token no valido'
-                }
+                throw  this.errorController('Invalid token', 403)
             }
 
             const user: ResponseLoginUser | null = await UserModel.findById(userId.token)
 
             if(!user){
-                throw {
-                    code: this.code = 403,
-                    error: this.error = 'User no encontrado'
-                }
+                throw this.errorController('Invalid user', 404)
             }
             if(user.balance < 500){
-                throw {
-                    code: this.code = 403,
-                    error: this.error = 'No hay suficiente balance, minimo 500'
-                }
+                throw this.errorController('Balance at least 500', 403)
             }
             if(user.typeAccount === 'premium'){
-                throw{
-                    code: this.code = 403,
-                    error: this.error = 'No puedes pasar de premium a plus'
-                }
+                throw this.errorController('account premium already', 404)
             }
-
+            // $2a$10$4GPgajB8PbSlWbAbAa7gYO0uu.MfCEBv6Ac7S7U72jbSZ.zTqIOgi
             this.userDirector.createPlusUser(
                 user._id, 
                 user.name, 
@@ -168,7 +149,8 @@ export default class UserServices {
                 user.password!, 
                 user.registerDate!, 
                 user.cart, 
-                user.history)
+                user.history
+                )
 
             const userPlus = this.userBuilder.build() 
 
@@ -177,10 +159,7 @@ export default class UserServices {
             }).lean()
 
             if(!userUpdated){
-                throw {
-                    code: this.code = 500,
-                    error: this.error = 'Error en actualizar user en db'
-                }
+                throw this.errorController('Error in update user to plus', 500) 
             }
             
             return {
@@ -202,9 +181,9 @@ export default class UserServices {
 
         } catch (error) {
             throw {
-                code: this.code = 500,
-                error: this.error = "Error en services update plus user"
-            }
+                error: this.error,
+                code: this.code
+            } 
         }
 
     }
@@ -214,24 +193,15 @@ export default class UserServices {
         try {
             const userId:any = jwt.verify(tokenQuery, process.env.JWT_KEY!)
             if(!userId.token){
-                throw {
-                    code: this.code = 403,
-                    error: this.error = 'Token no valido'
-                }
+                throw this.errorController('Invalid Token', 403) 
             }
             
             let user: ResponseLoginUser | null = await UserModel.findById(userId.token)
             if(!user){
-                throw {
-                    code: this.code = 403,
-                    error: this.error = 'User no encontrado'
-                }
+                throw this.errorController('Invalid User', 403) 
             }
             if(user.balance < 1000){
-                throw {
-                    code: this.code = 403,
-                    error: this.error = 'No hay suficiente balance, minimo 1000'
-                }
+                throw this.errorController('Balance must be at least 1000', 403)
             }
 
              
@@ -253,10 +223,7 @@ export default class UserServices {
             }).lean()
 
             if(!userUpdated){
-                throw {
-                    code: this.code = 500,
-                    error: this.error = 'Error en actualizar user en db'
-                }
+                throw this.errorController('Error in update user to premium', 500 ) 
             }
 
             return {
@@ -278,9 +245,9 @@ export default class UserServices {
 
         } catch (error) {
             throw {
-                code: this.code = 500,
-                error: this.error = "Error en services update premium user"
-            }
+                error: this.error,
+                code: this.code
+            } 
         }
     
     

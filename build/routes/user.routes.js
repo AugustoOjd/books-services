@@ -9,5 +9,6 @@ router.post('/', (0, validateRegister_1.validateRegister)(createUserValidation_1
 router.post('/auth', user_controller_1.loginUser);
 router.put('/plus', user_controller_1.updatePlus);
 router.put('/premium', user_controller_1.updatePremium);
+router.post('/logout', user_controller_1.logoutUser);
 router.get('/', user_controller_1.getUsers);
 exports.default = router;

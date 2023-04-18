@@ -17,22 +17,24 @@ const UserBuilder_1 = __importDefault(require("../../models/UsersManagers/UserBu
 const UserDirector_1 = __importDefault(require("../../models/UsersManagers/UserDirector"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const bcryptConfig_1 = require("../../utils/bcryptConfig");
-class RegisterRegularUser {
+class UserServices {
     constructor() {
         this.userBuilder = new UserBuilder_1.default();
         this.userDirector = new UserDirector_1.default(this.userBuilder);
         this.error = '';
         this.code = 200;
+        this.errorController;
+    }
+    errorController(message, code) {
+        this.error = message;
+        this.code = code;
     }
     registerRegularUser(name, lastName, email, country, password) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 let valideEmail = yield user_schema_1.UserModel.findOne({ email: email });
                 if (valideEmail) {
-                    throw {
-                        code: this.code = 500,
-                        error: this.error = 'Email already exists'
-                    };
+                    throw this.errorController('Email already exits', 404);
                 }
                 this.userDirector.createRegularUser(name, lastName, email, country, password);
                 const user = this.userBuilder.build();
@@ -44,36 +46,27 @@ class RegisterRegularUser {
                 };
             }
             catch (error) {
-                throw {
-                    code: this.code = 500,
-                    error: this.error = 'Error en register regular user'
-                };
+                throw this.errorController('Error register regular user', 500);
             }
         });
     }
     loginUser(email, password) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                if (!email || !password) {
+                    throw this.errorController('Email and password are require', 404);
+                }
                 const user = yield user_schema_1.UserModel.findOne({ email: email });
                 if (!user) {
-                    throw {
-                        code: this.code = 404,
-                        error: this.error = 'El email es incorrecto'
-                    };
+                    throw this.errorController('Invalid email', 404);
                 }
-                const validPassDB = (0, bcryptConfig_1.validPassword)(user, password);
                 const token = jsonwebtoken_1.default.sign({ token: user._id }, process.env.JWT_KEY, { expiresIn: '1h' });
                 if (!token) {
-                    throw {
-                        code: this.code = 405,
-                        error: this.error = 'Error en generar token'
-                    };
+                    throw this.errorController('Generate token error', 405);
                 }
+                const validPassDB = (0, bcryptConfig_1.validPassword)(user, password);
                 if (!validPassDB) {
-                    throw {
-                        code: this.code = 404,
-                        error: this.error = 'Incorrect email or password'
-                    };
+                    throw this.errorController('Incorrect email or password', 404);
                 }
                 return {
                     userData: {
@@ -94,8 +87,8 @@ class RegisterRegularUser {
             }
             catch (error) {
                 throw {
-                    code: this.code,
-                    error: this.error
+                    error: this.error,
+                    code: this.code
                 };
             }
         });
@@ -105,40 +98,26 @@ class RegisterRegularUser {
             try {
                 const userId = jsonwebtoken_1.default.verify(tokenQuery, process.env.JWT_KEY);
                 if (!userId.token) {
-                    throw {
-                        code: this.code = 403,
-                        error: this.error = 'Token no valido'
-                    };
+                    throw this.errorController('Invalid token', 403);
                 }
                 const user = yield user_schema_1.UserModel.findById(userId.token);
                 if (!user) {
-                    throw {
-                        code: this.code = 403,
-                        error: this.error = 'User no encontrado'
-                    };
+                    throw this.errorController('Invalid user', 404);
                 }
                 if (user.balance < 500) {
-                    throw {
-                        code: this.code = 403,
-                        error: this.error = 'No hay suficiente balance, minimo 500'
-                    };
+                    throw this.errorController('Balance at least 500', 403);
                 }
                 if (user.typeAccount === 'premium') {
-                    throw {
-                        code: this.code = 403,
-                        error: this.error = 'No puedes pasar de premium a plus'
-                    };
+                    throw this.errorController('account premium already', 404);
                 }
+                // $2a$10$4GPgajB8PbSlWbAbAa7gYO0uu.MfCEBv6Ac7S7U72jbSZ.zTqIOgi
                 this.userDirector.createPlusUser(user._id, user.name, user.lastName, user.email, user.country, user.password, user.registerDate, user.cart, user.history);
                 const userPlus = this.userBuilder.build();
                 const userUpdated = yield user_schema_1.UserModel.findByIdAndUpdate(userId.token, userPlus, {
                     new: true
                 }).lean();
                 if (!userUpdated) {
-                    throw {
-                        code: this.code = 500,
-                        error: this.error = 'Error en actualizar user en db'
-                    };
+                    throw this.errorController('Error in update user to plus', 500);
                 }
                 return {
                     userData: {
@@ -159,8 +138,8 @@ class RegisterRegularUser {
             }
             catch (error) {
                 throw {
-                    code: this.code = 500,
-                    error: this.error = "Error en services update plus user"
+                    error: this.error,
+                    code: this.code
                 };
             }
         });
@@ -170,23 +149,14 @@ class RegisterRegularUser {
             try {
                 const userId = jsonwebtoken_1.default.verify(tokenQuery, process.env.JWT_KEY);
                 if (!userId.token) {
-                    throw {
-                        code: this.code = 403,
-                        error: this.error = 'Token no valido'
-                    };
+                    throw this.errorController('Invalid Token', 403);
                 }
                 let user = yield user_schema_1.UserModel.findById(userId.token);
                 if (!user) {
-                    throw {
-                        code: this.code = 403,
-                        error: this.error = 'User no encontrado'
-                    };
+                    throw this.errorController('Invalid User', 403);
                 }
                 if (user.balance < 1000) {
-                    throw {
-                        code: this.code = 403,
-                        error: this.error = 'No hay suficiente balance, minimo 1000'
-                    };
+                    throw this.errorController('Balance must be at least 1000', 403);
                 }
                 this.userDirector.createPremiumUser(user._id, user.name, user.lastName, user.email, user.country, user.password, user.registerDate, user.cart, user.history);
                 const premiumUser = this.userBuilder.build();
@@ -194,10 +164,7 @@ class RegisterRegularUser {
                     new: true
                 }).lean();
                 if (!userUpdated) {
-                    throw {
-                        code: this.code = 500,
-                        error: this.error = 'Error en actualizar user en db'
-                    };
+                    throw this.errorController('Error in update user to premium', 500);
                 }
                 return {
                     userData: {
@@ -218,11 +185,11 @@ class RegisterRegularUser {
             }
             catch (error) {
                 throw {
-                    code: this.code = 500,
-                    error: this.error = "Error en services update premium user"
+                    error: this.error,
+                    code: this.code
                 };
             }
         });
     }
 }
-exports.default = RegisterRegularUser;
+exports.default = UserServices;

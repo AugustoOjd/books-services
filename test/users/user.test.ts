@@ -64,26 +64,34 @@ describe('Pruebas API /user', ()=>{
       expect(resp.body.payload.user.cart).toBeInstanceOf(Array)
       expect(resp.body.payload.user.history).toBeInstanceOf(Array)
       expect(resp.body.payload.token).toBeDefined()
+      
   })
 
-  it('POST /api/user/auth - login user -', async ()=>{
-      const resp = await request(new Server().getApp()).post('/api/user/auth').send(loginUser)
+  describe('Test login - updatePlus - updatePremium - logout', ()=>{
 
-      expect(resp.statusCode).toBe(200)
-      expect(resp.headers['content-type']).toContain('json')
-      expect(resp.body.payload.user.email).toBe(loginUser.email)
-      expect(resp.body.payload.user.name).toBe(newUser.name)
-      expect(resp.body.payload.user.lastName).toBe(newUser.lastName)
-      expect(resp.body.payload.user.typeAccount).toBeDefined()
-      expect(resp.body.payload.user.balance).toBeDefined()
-      expect(resp.body.payload.user.cart).toBeInstanceOf(Array)
-      expect(resp.body.payload.user.history).toBeInstanceOf(Array)
-      expect(resp.body.payload.token).toBeDefined()
+    let respLogin
+    beforeAll(async ()=>{
+      respLogin = await request(new Server().getApp()).post('/api/user/auth').send(loginUser)
+    })
+
+  it('POST /api/user/auth - login user -', async ()=>{
+
+
+      expect(respLogin.statusCode).toBe(200)
+      expect(respLogin.headers['content-type']).toContain('json')
+      expect(respLogin.body.payload.user.email).toBe(loginUser.email)
+      expect(respLogin.body.payload.user.name).toBe(newUser.name)
+      expect(respLogin.body.payload.user.lastName).toBe(newUser.lastName)
+      expect(respLogin.body.payload.user.typeAccount).toBeDefined()
+      expect(respLogin.body.payload.user.balance).toBeDefined()
+      expect(respLogin.body.payload.user.cart).toBeInstanceOf(Array)
+      expect(respLogin.body.payload.user.history).toBeInstanceOf(Array)
+      expect(respLogin.body.payload.token).toBeDefined()
   })
 
   it('PUT /api/user/plus - actualizar user a plus -', async ()=>{
 
-    const respLogin = await request(new Server().getApp()).post('/api/user/auth').send(loginUser)
+    // const respLogin = await request(new Server().getApp()).post('/api/user/auth').send(loginUser)
 
     const respUpdate = await request(new Server().getApp()).put('/api/user/plus').set('Cookie', [`token=${respLogin.body.payload.token}`])
 
@@ -103,8 +111,8 @@ describe('Pruebas API /user', ()=>{
 
   it('PUT /api/user/premium - actulizar user a premium -', async ()=>{
     
-    const respLogin = await request(new Server().getApp()).post('/api/user/auth').send(loginUser)
-    console.log(respLogin.body.payload.token)
+    // const respLogin = await request(new Server().getApp()).post('/api/user/auth').send(loginUser)
+    // console.log(respLogin.body.payload.token)
     const respUpdate = await request(new Server().getApp()).put('/api/user/premium').set('Cookie', [`token=${respLogin.body.payload.token}`])
 
 
@@ -122,6 +130,18 @@ describe('Pruebas API /user', ()=>{
     expect(respUpdate.body.payload.token).toBe(respLogin.body.payload.token)
 
   } )
+
+  it('Logout and clear cookie', async()=>{
+    
+    const resp = await request(new Server().getApp()).post('/api/user/logout').send()
+
+    expect(resp.statusCode).toBe(200)
+    expect(resp.headers['content-type']).toContain('json')
+    expect(resp.body.token).toBe(null)
+  })
+
+  })
+
 
 })
 
