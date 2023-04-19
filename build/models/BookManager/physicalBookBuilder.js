@@ -79,8 +79,8 @@ class BookBuilder {
         this.category = category;
         return this;
     }
-    setSold(sold) {
-        this.sold = sold;
+    setSold() {
+        this.sold = 0;
         return this;
     }
     addThumbnail(img) {
@@ -88,9 +88,9 @@ class BookBuilder {
         return this;
     }
     build() {
-        const book = new Book_1.default(this.title, this.description, this.author, this.editorial, this.stock, this.thumbnail, this.price, this.pages, this.language, this.release, this.category, this.sold, this.type);
+        const physicalBook = new Book_1.default(this.title, this.description, this.author, this.editorial, this.stock, this.thumbnail, this.price, this.pages, this.language, this.release, this.category, this.sold, this.type);
         this.reset();
-        return book;
+        return physicalBook;
     }
 }
 exports.default = BookBuilder;

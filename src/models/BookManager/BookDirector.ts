@@ -14,6 +14,4 @@ export default class BookDirector {
         this.bookbuilder = bookbuilder
     }
 
-    
-
 }

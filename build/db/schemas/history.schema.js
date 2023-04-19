@@ -23,43 +23,20 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserModel = void 0;
+exports.HistoryModel = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
-const userSchema = new mongoose_1.Schema({
-    name: { type: String, require: true },
-    lastName: { type: String, require: true },
-    email: { type: String, require: true, unique: true },
-    password: { type: String, require: true },
-    country: { type: String, require: true },
-    status: { type: Boolean, require: true },
-    role: { type: String, require: true, default: 'client' },
-    typeAccount: { type: String, require: true, default: 'regular' },
-    balance: { type: Number, require: true },
-    discount: { type: Number, require: true },
-    freeShipping: { type: Boolean, require: true },
-    registerDate: { type: Date },
-    updatedDate: { type: Date },
-    cart: {
+const HistorySchema = new mongoose_1.Schema({
+    products: {
         type: [
             {
-                cartId: {
+                product: {
                     type: mongoose_1.default.Schema.Types.ObjectId,
-                    ref: 'Cart'
-                }
+                    ref: 'Book'
+                },
+                quantity: { type: Number, default: 1 }
             }
         ],
         default: []
-    },
-    history: {
-        type: [
-            {
-                historyId: {
-                    type: mongoose_1.default.Schema.Types.ObjectId,
-                    ref: 'History'
-                }
-            }
-        ],
-        default: []
-    },
+    }
 });
-exports.UserModel = (0, mongoose_1.model)('User', userSchema);
+exports.HistoryModel = (0, mongoose_1.model)('History', HistorySchema);

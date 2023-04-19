@@ -1,5 +1,7 @@
 import Book from "../../models/BookManager/Book";
 
+export type TypeBooks = 'physical' | 'pdf' | 'graphic'
+
 export interface IBookBuilder {
     title           : string;
     description     : string;
@@ -13,7 +15,7 @@ export interface IBookBuilder {
     release         : string;
     category        : string;
     sold            : number;
-    type            : string;
+    type            : TypeBooks;
 
     setTitle(title:string): IBookBuilder
     setDescription(desc: string): IBookBuilder
@@ -25,8 +27,8 @@ export interface IBookBuilder {
     setLaguange(language: string): IBookBuilder
     setRelease(release: string): IBookBuilder
     setCategory(category: string): IBookBuilder
-    setSold(sold: number): IBookBuilder
-    setType(type: string): IBookBuilder
+    setSold(): IBookBuilder
+    setType(): IBookBuilder
     
 
     addThumbnail(img: string): IBookBuilder

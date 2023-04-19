@@ -17,13 +17,15 @@ const cors_1 = __importDefault(require("cors"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const dbConnection_1 = __importDefault(require("../db/dbConnection"));
 const user_routes_1 = __importDefault(require("../routes/user.routes"));
+const book_routes_1 = __importDefault(require("../routes/book.routes"));
 const body_parser_1 = __importDefault(require("body-parser"));
 class Server {
     constructor() {
         this.app = (0, express_1.default)();
         this.port = process.env.PORT || '3000';
         this.paths = {
-            register: '/api/user'
+            user: '/api/user',
+            book: '/api/books'
         };
         this.dbConnection();
         // Middlewares
@@ -57,7 +59,8 @@ class Server {
         this.app.use(express_1.default.urlencoded({ extended: true }));
     }
     routes() {
-        this.app.use(this.paths.register, user_routes_1.default);
+        this.app.use(this.paths.user, user_routes_1.default);
+        this.app.use(this.paths.book, book_routes_1.default);
     }
     listen() {
         this.app.listen(this.port, () => {

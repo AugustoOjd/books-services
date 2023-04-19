@@ -2,7 +2,10 @@ import express, {Application } from "express";
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import DBConnection from "../db/dbConnection";
-import registerRouter from '../routes/user.routes'
+
+import userRouter from '../routes/user.routes'
+import bookRouter from '../routes/book.routes'
+
 import bodyParser from "body-parser";
 
 
@@ -12,7 +15,8 @@ export default class Server {
     private app: Application
     private port: string
     private paths: {          
-        register: '/api/user'
+        user: '/api/user',
+        book: '/api/books'
     }
 
     constructor(){
@@ -20,7 +24,8 @@ export default class Server {
         this.port = process.env.PORT || '3000'
 
         this.paths = {          
-            register: '/api/user'
+            user: '/api/user',
+            book: '/api/books'
         }
 
 
@@ -63,7 +68,8 @@ export default class Server {
 
     routes(){
 
-        this.app.use( this.paths.register , registerRouter)
+        this.app.use( this.paths.user , userRouter)
+        this.app.use( this.paths.book, bookRouter)
     }
 
     listen(){

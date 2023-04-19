@@ -1,9 +1,8 @@
-import { IBookBuilder } from "../../interfaces/book/IBookBuilder";
+import { IBookBuilder, TypeBooks } from "../../interfaces/book/IBookBuilder";
 import Book from "./Book";
 
 
-export default class BookBuilder implements IBookBuilder{
-    
+export default class GraphicBookBuilder implements IBookBuilder{
     title           : string;
     description     : string;
     author          : string;
@@ -16,22 +15,22 @@ export default class BookBuilder implements IBookBuilder{
     release         : string;
     category        : string;
     sold            : number;
-    type            : string;
+    type            : TypeBooks;
 
     constructor(){
-        this.title           = '';
-        this.description     = '';
-        this.author          = '';
-        this.editorial       = '';
-        this.stock           = 0;
-        this.thumbnail       = [];
-        this.price           = 0;
-        this.pages           = 0;
-        this.language        = '';
-        this.release         = '';
-        this.category        = '';
-        this.sold            = 0;
-        this.type            = '';
+        this.title           = ''
+        this.description     = ''
+        this.author          = ''
+        this.editorial       = ''
+        this.stock           = 0
+        this.thumbnail       = []
+        this.price           = 0
+        this.pages           = 0
+        this.language        = ''
+        this.release         = ''
+        this.category        = ''
+        this.sold            = 0
+        this.type            = 'graphic'
     }
 
     reset():void{
@@ -47,7 +46,7 @@ export default class BookBuilder implements IBookBuilder{
         this.release         = '';
         this.category        = '';
         this.sold            = 0;
-        this.type            = '';
+        this.type            = 'graphic';
     }
 
     setTitle(title: string): IBookBuilder {
@@ -55,7 +54,7 @@ export default class BookBuilder implements IBookBuilder{
         return this
     }
     setDescription(desc: string): IBookBuilder {
-        this.description = this.description
+        this.description = desc
         return this
     }
     setAuthor(author: string): IBookBuilder {
@@ -78,6 +77,10 @@ export default class BookBuilder implements IBookBuilder{
         this.pages = pages
         return this
     }
+    setCategory(category: string): IBookBuilder {
+        this.category = category
+        return this
+    }
     setLaguange(language: string): IBookBuilder {
         this.language = language
         return this
@@ -86,49 +89,39 @@ export default class BookBuilder implements IBookBuilder{
         this.release = release
         return this
     }
-    setType(type: string): IBookBuilder {
-        this.type = type
+    setSold(): IBookBuilder {
+        this.sold = 0
         return this
     }
-    setCategory(category: string): IBookBuilder {
-        this.category = category
+    setType(): IBookBuilder {
+        this.type = 'graphic'
         return this
     }
-    setSold(sold: number): IBookBuilder {
-        this.sold = sold
-        return this
-    }
+
     addThumbnail(img: string): IBookBuilder {
         this.thumbnail.push(img)
         return this
     }
 
-
     build(): Book {
-        const book = new Book(
-            this.title,
+        const graphicBook = new Book(
+            this.title,      
             this.description,
-            this.author,
-            this.editorial,
-            this.stock,           
-            this.thumbnail,
-            this.price,           
-            this.pages,           
-            this.language,       
-            this.release,        
-            this.category,       
-            this.sold,            
-            this.type,                 
+            this.author,     
+            this.editorial,  
+            this.stock,      
+            this.thumbnail,  
+            this.price,      
+            this.pages,      
+            this.language,   
+            this.release,    
+            this.category,   
+            this.sold,       
+            this.type,       
         )
 
         this.reset()
-
-        return book
+        
+        return graphicBook
     }
-
 }
-
-// export const bookBuilder = new BookBuilder()
-
-// bookBuilder.build()
-

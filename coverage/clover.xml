@@ -1,21 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1681846149024" clover="3.2.0">
-  <project timestamp="1681846149024" name="All files">
-    <metrics statements="205" coveredstatements="167" conditionals="52" coveredconditionals="22" methods="52" coveredmethods="45" elements="309" coveredelements="234" complexity="0" loc="205" ncloc="205" packages="10" files="12" classes="12"/>
+<coverage generated="1681942878568" clover="3.2.0">
+  <project timestamp="1681942878569" name="All files">
+    <metrics statements="217" coveredstatements="177" conditionals="56" coveredconditionals="22" methods="54" coveredmethods="47" elements="327" coveredelements="246" complexity="0" loc="217" ncloc="217" packages="10" files="14" classes="14"/>
     <package name="controllers">
-      <metrics statements="35" coveredstatements="27" conditionals="16" coveredconditionals="3" methods="6" coveredmethods="6"/>
+      <metrics statements="43" coveredstatements="33" conditionals="20" coveredconditionals="3" methods="8" coveredmethods="8"/>
+      <file name="book.controller.ts" path="C:\Users\Nelson\Desktop\bookStore-server\src\controllers\book.controller.ts">
+        <metrics statements="8" coveredstatements="6" conditionals="4" coveredconditionals="0" methods="2" coveredmethods="2"/>
+        <line num="4" count="2" type="cond" truecount="0" falsecount="2"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="17" count="2" type="cond" truecount="0" falsecount="2"/>
+        <line num="18" count="1" type="stmt"/>
+        <line num="19" count="1" type="stmt"/>
+        <line num="24" count="0" type="stmt"/>
+      </file>
       <file name="user.controller.ts" path="C:\Users\Nelson\Desktop\bookStore-server\src\controllers\user.controller.ts">
         <metrics statements="35" coveredstatements="27" conditionals="16" coveredconditionals="3" methods="6" coveredmethods="6"/>
-        <line num="5" count="1" type="stmt"/>
-        <line num="7" count="1" type="cond" truecount="0" falsecount="2"/>
+        <line num="5" count="2" type="stmt"/>
+        <line num="7" count="2" type="cond" truecount="0" falsecount="2"/>
         <line num="9" count="1" type="stmt"/>
-        <line num="15" count="1" type="cond" truecount="0" falsecount="2"/>
+        <line num="15" count="2" type="cond" truecount="0" falsecount="2"/>
         <line num="17" count="1" type="stmt"/>
         <line num="19" count="1" type="stmt"/>
         <line num="20" count="1" type="stmt"/>
         <line num="22" count="1" type="stmt"/>
         <line num="43" count="0" type="stmt"/>
-        <line num="48" count="1" type="cond" truecount="0" falsecount="2"/>
+        <line num="48" count="2" type="cond" truecount="0" falsecount="2"/>
         <line num="50" count="1" type="stmt"/>
         <line num="51" count="1" type="stmt"/>
         <line num="54" count="1" type="cond" truecount="3" falsecount="1"/>
@@ -24,19 +35,19 @@
         <line num="59" count="1" type="stmt"/>
         <line num="81" count="0" type="stmt"/>
         <line num="82" count="0" type="stmt"/>
-        <line num="86" count="1" type="cond" truecount="0" falsecount="2"/>
+        <line num="86" count="2" type="cond" truecount="0" falsecount="2"/>
         <line num="88" count="1" type="stmt"/>
         <line num="90" count="1" type="stmt"/>
         <line num="92" count="1" type="stmt"/>
         <line num="94" count="1" type="stmt"/>
         <line num="116" count="0" type="stmt"/>
-        <line num="121" count="1" type="cond" truecount="0" falsecount="2"/>
+        <line num="121" count="2" type="cond" truecount="0" falsecount="2"/>
         <line num="122" count="1" type="stmt"/>
         <line num="124" count="1" type="stmt"/>
         <line num="130" count="1" type="stmt"/>
         <line num="132" count="1" type="stmt"/>
         <line num="155" count="0" type="stmt"/>
-        <line num="159" count="1" type="cond" truecount="0" falsecount="2"/>
+        <line num="159" count="2" type="cond" truecount="0" falsecount="2"/>
         <line num="160" count="1" type="stmt"/>
         <line num="161" count="1" type="stmt"/>
         <line num="166" count="0" type="stmt"/>
@@ -47,27 +58,26 @@
       <metrics statements="5" coveredstatements="5" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
       <file name="dbConnection.ts" path="C:\Users\Nelson\Desktop\bookStore-server\src\db\dbConnection.ts">
         <metrics statements="5" coveredstatements="5" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
-        <line num="3" count="1" type="stmt"/>
-        <line num="15" count="1" type="stmt"/>
-        <line num="26" count="6" type="cond" truecount="2" falsecount="0"/>
-        <line num="27" count="1" type="stmt"/>
-        <line num="29" count="5" type="stmt"/>
+        <line num="3" count="2" type="stmt"/>
+        <line num="15" count="2" type="stmt"/>
+        <line num="26" count="8" type="cond" truecount="2" falsecount="0"/>
+        <line num="27" count="2" type="stmt"/>
+        <line num="29" count="6" type="stmt"/>
       </file>
     </package>
     <package name="db.schemas">
-      <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="user.schema.ts" path="C:\Users\Nelson\Desktop\bookStore-server\src\db\schemas\user.schema.ts">
-        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="2" count="1" type="stmt"/>
-        <line num="4" count="1" type="stmt"/>
-        <line num="22" count="1" type="stmt"/>
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="3" count="2" type="stmt"/>
+        <line num="42" count="2" type="stmt"/>
       </file>
     </package>
     <package name="middlewares">
       <metrics statements="6" coveredstatements="5" conditionals="2" coveredconditionals="0" methods="2" coveredmethods="2"/>
       <file name="validateRegister.ts" path="C:\Users\Nelson\Desktop\bookStore-server\src\middlewares\validateRegister.ts">
         <metrics statements="6" coveredstatements="5" conditionals="2" coveredconditionals="0" methods="2" coveredmethods="2"/>
-        <line num="7" count="1" type="cond" truecount="0" falsecount="2"/>
+        <line num="7" count="2" type="cond" truecount="0" falsecount="2"/>
         <line num="9" count="1" type="stmt"/>
         <line num="11" count="1" type="stmt"/>
         <line num="12" count="1" type="stmt"/>
@@ -76,32 +86,33 @@
       </file>
     </package>
     <package name="models">
-      <metrics statements="19" coveredstatements="16" conditionals="2" coveredconditionals="1" methods="7" coveredmethods="5"/>
+      <metrics statements="20" coveredstatements="17" conditionals="2" coveredconditionals="1" methods="7" coveredmethods="5"/>
       <file name="server.ts" path="C:\Users\Nelson\Desktop\bookStore-server\src\models\server.ts">
-        <metrics statements="19" coveredstatements="16" conditionals="2" coveredconditionals="1" methods="7" coveredmethods="5"/>
-        <line num="19" count="6" type="stmt"/>
-        <line num="20" count="6" type="cond" truecount="1" falsecount="1"/>
-        <line num="22" count="6" type="stmt"/>
-        <line num="27" count="6" type="stmt"/>
-        <line num="30" count="6" type="stmt"/>
-        <line num="33" count="6" type="stmt"/>
-        <line num="37" count="6" type="stmt"/>
-        <line num="43" count="6" type="stmt"/>
-        <line num="45" count="6" type="stmt"/>
-        <line num="47" count="0" type="stmt"/>
-        <line num="56" count="6" type="stmt"/>
-        <line num="57" count="6" type="stmt"/>
-        <line num="58" count="6" type="stmt"/>
-        <line num="59" count="6" type="stmt"/>
-        <line num="60" count="6" type="stmt"/>
-        <line num="61" count="6" type="stmt"/>
-        <line num="66" count="6" type="stmt"/>
-        <line num="70" count="0" type="stmt"/>
-        <line num="71" count="0" type="stmt"/>
+        <metrics statements="20" coveredstatements="17" conditionals="2" coveredconditionals="1" methods="7" coveredmethods="5"/>
+        <line num="23" count="8" type="stmt"/>
+        <line num="24" count="8" type="cond" truecount="1" falsecount="1"/>
+        <line num="26" count="8" type="stmt"/>
+        <line num="32" count="8" type="stmt"/>
+        <line num="35" count="8" type="stmt"/>
+        <line num="38" count="8" type="stmt"/>
+        <line num="42" count="8" type="stmt"/>
+        <line num="48" count="8" type="stmt"/>
+        <line num="50" count="8" type="stmt"/>
+        <line num="52" count="0" type="stmt"/>
+        <line num="61" count="8" type="stmt"/>
+        <line num="62" count="8" type="stmt"/>
+        <line num="63" count="8" type="stmt"/>
+        <line num="64" count="8" type="stmt"/>
+        <line num="65" count="8" type="stmt"/>
+        <line num="66" count="8" type="stmt"/>
+        <line num="71" count="8" type="stmt"/>
+        <line num="72" count="8" type="stmt"/>
+        <line num="76" count="0" type="stmt"/>
+        <line num="77" count="0" type="stmt"/>
       </file>
     </package>
     <package name="models.UsersManagers">
-      <metrics statements="60" coveredstatements="54" conditionals="0" coveredconditionals="0" methods="27" coveredmethods="23"/>
+      <metrics statements="61" coveredstatements="55" conditionals="0" coveredconditionals="0" methods="27" coveredmethods="23"/>
       <file name="User.ts" path="C:\Users\Nelson\Desktop\bookStore-server\src\models\UsersManagers\User.ts">
         <metrics statements="15" coveredstatements="14" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="1"/>
         <line num="38" count="3" type="stmt"/>
@@ -121,51 +132,52 @@
         <line num="55" count="0" type="stmt"/>
       </file>
       <file name="UserBuilder.ts" path="C:\Users\Nelson\Desktop\bookStore-server\src\models\UsersManagers\UserBuilder.ts">
-        <metrics statements="40" coveredstatements="36" conditionals="0" coveredconditionals="0" methods="20" coveredmethods="18"/>
-        <line num="22" count="1" type="stmt"/>
-        <line num="34" count="1" type="stmt"/>
+        <metrics statements="41" coveredstatements="37" conditionals="0" coveredconditionals="0" methods="20" coveredmethods="18"/>
+        <line num="22" count="2" type="stmt"/>
+        <line num="34" count="2" type="stmt"/>
         <line num="39" count="3" type="stmt"/>
-        <line num="53" count="2" type="stmt"/>
-        <line num="54" count="2" type="stmt"/>
-        <line num="58" count="3" type="stmt"/>
-        <line num="59" count="3" type="stmt"/>
+        <line num="51" count="3" type="stmt"/>
+        <line num="57" count="2" type="stmt"/>
+        <line num="58" count="2" type="stmt"/>
+        <line num="62" count="3" type="stmt"/>
         <line num="63" count="3" type="stmt"/>
-        <line num="64" count="3" type="stmt"/>
+        <line num="67" count="3" type="stmt"/>
         <line num="68" count="3" type="stmt"/>
-        <line num="69" count="3" type="stmt"/>
+        <line num="72" count="3" type="stmt"/>
         <line num="73" count="3" type="stmt"/>
-        <line num="74" count="3" type="stmt"/>
+        <line num="77" count="3" type="stmt"/>
         <line num="78" count="3" type="stmt"/>
-        <line num="79" count="3" type="stmt"/>
+        <line num="82" count="3" type="stmt"/>
         <line num="83" count="3" type="stmt"/>
-        <line num="84" count="3" type="stmt"/>
+        <line num="87" count="3" type="stmt"/>
         <line num="88" count="3" type="stmt"/>
-        <line num="89" count="3" type="stmt"/>
+        <line num="92" count="3" type="stmt"/>
         <line num="93" count="3" type="stmt"/>
-        <line num="94" count="3" type="stmt"/>
+        <line num="97" count="3" type="stmt"/>
         <line num="98" count="3" type="stmt"/>
-        <line num="99" count="3" type="stmt"/>
+        <line num="102" count="3" type="stmt"/>
         <line num="103" count="3" type="stmt"/>
-        <line num="104" count="3" type="stmt"/>
+        <line num="107" count="3" type="stmt"/>
         <line num="108" count="3" type="stmt"/>
-        <line num="109" count="3" type="stmt"/>
+        <line num="112" count="3" type="stmt"/>
         <line num="113" count="3" type="stmt"/>
-        <line num="114" count="3" type="stmt"/>
-        <line num="118" count="2" type="stmt"/>
-        <line num="119" count="2" type="stmt"/>
+        <line num="117" count="3" type="stmt"/>
+        <line num="118" count="3" type="stmt"/>
+        <line num="122" count="2" type="stmt"/>
         <line num="123" count="2" type="stmt"/>
-        <line num="124" count="2" type="stmt"/>
-        <line num="130" count="0" type="stmt"/>
-        <line num="131" count="0" type="stmt"/>
+        <line num="127" count="2" type="stmt"/>
+        <line num="128" count="2" type="stmt"/>
+        <line num="134" count="0" type="stmt"/>
         <line num="135" count="0" type="stmt"/>
-        <line num="136" count="0" type="stmt"/>
-        <line num="140" count="3" type="stmt"/>
-        <line num="157" count="3" type="stmt"/>
-        <line num="159" count="3" type="stmt"/>
+        <line num="139" count="0" type="stmt"/>
+        <line num="140" count="0" type="stmt"/>
+        <line num="144" count="3" type="stmt"/>
+        <line num="161" count="3" type="stmt"/>
+        <line num="163" count="3" type="stmt"/>
       </file>
       <file name="UserDirector.ts" path="C:\Users\Nelson\Desktop\bookStore-server\src\models\UsersManagers\UserDirector.ts">
         <metrics statements="5" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="4"/>
-        <line num="9" count="1" type="stmt"/>
+        <line num="9" count="2" type="stmt"/>
         <line num="13" count="0" type="stmt"/>
         <line num="23" count="1" type="stmt"/>
         <line num="48" count="1" type="stmt"/>
@@ -173,27 +185,33 @@
       </file>
     </package>
     <package name="routes">
-      <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <metrics statements="10" coveredstatements="10" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="book.routes.ts" path="C:\Users\Nelson\Desktop\bookStore-server\src\routes\book.routes.ts">
+        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="4" count="2" type="stmt"/>
+        <line num="6" count="2" type="stmt"/>
+        <line num="8" count="2" type="stmt"/>
+      </file>
       <file name="user.routes.ts" path="C:\Users\Nelson\Desktop\bookStore-server\src\routes\user.routes.ts">
         <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="7" count="1" type="stmt"/>
-        <line num="11" count="1" type="stmt"/>
-        <line num="13" count="1" type="stmt"/>
-        <line num="15" count="1" type="stmt"/>
-        <line num="17" count="1" type="stmt"/>
-        <line num="19" count="1" type="stmt"/>
-        <line num="21" count="1" type="stmt"/>
+        <line num="7" count="2" type="stmt"/>
+        <line num="11" count="2" type="stmt"/>
+        <line num="13" count="2" type="stmt"/>
+        <line num="15" count="2" type="stmt"/>
+        <line num="17" count="2" type="stmt"/>
+        <line num="19" count="2" type="stmt"/>
+        <line num="21" count="2" type="stmt"/>
       </file>
     </package>
     <package name="services.userServices">
       <metrics statements="65" coveredstatements="45" conditionals="30" coveredconditionals="16" methods="6" coveredmethods="5"/>
       <file name="user.services.ts" path="C:\Users\Nelson\Desktop\bookStore-server\src\services\userServices\user.services.ts">
         <metrics statements="65" coveredstatements="45" conditionals="30" coveredconditionals="16" methods="6" coveredmethods="5"/>
-        <line num="34" count="1" type="stmt"/>
-        <line num="35" count="1" type="stmt"/>
-        <line num="36" count="1" type="stmt"/>
-        <line num="37" count="1" type="stmt"/>
-        <line num="39" count="1" type="stmt"/>
+        <line num="34" count="2" type="stmt"/>
+        <line num="35" count="2" type="stmt"/>
+        <line num="36" count="2" type="stmt"/>
+        <line num="37" count="2" type="stmt"/>
+        <line num="39" count="2" type="stmt"/>
         <line num="43" count="0" type="stmt"/>
         <line num="44" count="0" type="stmt"/>
         <line num="48" count="1" type="stmt"/>
@@ -260,9 +278,9 @@
       <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
       <file name="bcryptConfig.ts" path="C:\Users\Nelson\Desktop\bookStore-server\src\utils\bcryptConfig.ts">
         <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
-        <line num="4" count="1" type="stmt"/>
+        <line num="4" count="2" type="stmt"/>
         <line num="6" count="1" type="stmt"/>
-        <line num="9" count="1" type="stmt"/>
+        <line num="9" count="2" type="stmt"/>
         <line num="10" count="1" type="stmt"/>
       </file>
     </package>
@@ -270,7 +288,7 @@
       <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="createUserValidation.ts" path="C:\Users\Nelson\Desktop\bookStore-server\src\validations\createUserValidation.ts">
         <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="95" count="1" type="stmt"/>
+        <line num="95" count="2" type="stmt"/>
       </file>
     </package>
   </project>

@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const Book_1 = __importDefault(require("./Book"));
-class BookBuilder {
+class BookPdfBuilder {
     constructor() {
         this.title = '';
         this.description = '';
@@ -18,7 +18,7 @@ class BookBuilder {
         this.release = '';
         this.category = '';
         this.sold = 0;
-        this.type = 'physical';
+        this.type = 'pdf';
     }
     reset() {
         this.title = '';
@@ -33,7 +33,7 @@ class BookBuilder {
         this.release = '';
         this.category = '';
         this.sold = 0;
-        this.type = 'physical';
+        this.type = 'pdf';
     }
     setTitle(title) {
         this.title = title;
@@ -63,6 +63,10 @@ class BookBuilder {
         this.pages = pages;
         return this;
     }
+    setCategory(category) {
+        this.category = category;
+        return this;
+    }
     setLaguange(language) {
         this.language = language;
         return this;
@@ -71,16 +75,12 @@ class BookBuilder {
         this.release = release;
         return this;
     }
+    setSold() {
+        this.sold = 0;
+        return this;
+    }
     setType() {
-        this.type = 'physical';
-        return this;
-    }
-    setCategory(category) {
-        this.category = category;
-        return this;
-    }
-    setSold(sold) {
-        this.sold = sold;
+        this.type = 'pdf';
         return this;
     }
     addThumbnail(img) {
@@ -88,11 +88,9 @@ class BookBuilder {
         return this;
     }
     build() {
-        const book = new Book_1.default(this.title, this.description, this.author, this.editorial, this.stock, this.thumbnail, this.price, this.pages, this.language, this.release, this.category, this.sold, this.type);
+        const pdfBook = new Book_1.default(this.title, this.description, this.author, this.editorial, this.stock, this.thumbnail, this.price, this.pages, this.language, this.release, this.category, this.sold, this.type);
         this.reset();
-        return book;
+        return pdfBook;
     }
 }
-exports.default = BookBuilder;
-// export const bookBuilder = new BookBuilder()
-// bookBuilder.build()
+exports.default = BookPdfBuilder;
