@@ -13,6 +13,7 @@ class GraphicBookBuilder {
         this.stock = 0;
         this.thumbnail = [];
         this.price = 0;
+        this.code = '';
         this.pages = 0;
         this.language = '';
         this.release = '';
@@ -28,6 +29,7 @@ class GraphicBookBuilder {
         this.stock = 0;
         this.thumbnail = [];
         this.price = 0;
+        this.code = '';
         this.pages = 0;
         this.language = '';
         this.release = '';
@@ -59,6 +61,10 @@ class GraphicBookBuilder {
         this.price = price;
         return this;
     }
+    setCode(code) {
+        this.code = code;
+        return this;
+    }
     setPages(pages) {
         this.pages = pages;
         return this;
@@ -88,7 +94,7 @@ class GraphicBookBuilder {
         return this;
     }
     build() {
-        const graphicBook = new Book_1.default(this.title, this.description, this.author, this.editorial, this.stock, this.thumbnail, this.price, this.pages, this.language, this.release, this.category, this.sold, this.type);
+        const graphicBook = new Book_1.default(this.title, this.description, this.author, this.editorial, this.stock, this.thumbnail, this.price, this.code, this.pages, this.language, this.release, this.category, this.sold, this.type);
         this.reset();
         return graphicBook;
     }

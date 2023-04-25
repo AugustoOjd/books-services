@@ -10,6 +10,7 @@ export interface IBookBuilder {
     stock           : number;
     thumbnail       : string[];
     price           : number;
+    code            : string;
     pages           : number;
     language        : string;
     release         : string;
@@ -23,6 +24,7 @@ export interface IBookBuilder {
     setEditorial(edito: string): IBookBuilder
     setStock(stock: number): IBookBuilder
     setPrice(price: number): IBookBuilder
+    setCode(code: string): IBookBuilder
     setPages(pages: number): IBookBuilder
     setLaguange(language: string): IBookBuilder
     setRelease(release: string): IBookBuilder

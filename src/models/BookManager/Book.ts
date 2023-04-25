@@ -9,6 +9,7 @@ export default class Book {
     private stock           : number;
     private thumbnail       : string[];
     private price           : number;
+    private code            : string;
     private pages           : number;
     private language        : string;
     private release         : string;
@@ -24,6 +25,7 @@ export default class Book {
         stock: number,
         thumbnail: string[],
         price: number,
+        code: string,
         pages: number,
         language: string,
         release: string,
@@ -38,6 +40,7 @@ export default class Book {
         this.stock = stock
         this.thumbnail = thumbnail
         this.price = price
+        this.code = code
         this.pages = pages
         this.language = language
         this.release = release

@@ -8,6 +8,7 @@ const bookSchema = new Schema({
     stock           : {type: Number, require: true},
     thumbnail       : {type: Array, require: true},
     price           : {type: Number, require: true},
+    code            : {type: String, require: true},
     pages           : {type: Number, require: true},
     language        : {type: String, require: true},
     release         : {type: String, require: true},

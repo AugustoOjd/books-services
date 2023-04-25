@@ -14,11 +14,11 @@ let newbookMock = {
     stock       : 15,
     thumbnail   : ['img mock'],
     price       : 30,
+    code        : 'ghnxjl',
     pages       : 230,
     language    : 'english',
     release     : '03-02-1982',
-    category    : 'drama',
-
+    category    : 'drama'
 }
 
 describe('GET - peticiones get api/books -', ()=>{
@@ -49,15 +49,21 @@ describe('POST - peticiones post api/books - ', ()=>{
       })
 
     afterAll(async ()=>{
-    //   await UserModel.deleteMany({ email: newUser.email })
+      await BookModel.deleteMany({ title: newbookMock.title })
       await mongoose.disconnect()
     })
 
     it('POST - add new book api/books', async ()=>{
 
-        let resp = await request(new Server().getApp()).post('/api/books').send()
+        let resp = await request(new Server().getApp()).post('/api/books').send(newbookMock)
     
         expect(resp.status).toBe(201)
         expect(resp.headers['content-type']).toContain('json')
+        expect(resp.body.payload.book.title).toBe(newbookMock.title)
+        expect(resp.body.payload.book.description).toBe(newbookMock.description)
+        expect(resp.body.payload.book.author).toBe(newbookMock.author)
+        expect(resp.body.payload.book.editorial).toBe(newbookMock.editorial)
+        expect(resp.body.payload.book.price).toBe(newbookMock.price)
+        expect(resp.body.payload.book.code).toBe(newbookMock.code)
     })
 })

@@ -2,7 +2,7 @@ import { IBookBuilder, TypeBooks } from "../../interfaces/book/IBookBuilder";
 import Book from "./Book";
 
 
-export default class BookBuilder implements IBookBuilder{
+export default class PhysicalBookBuilder implements IBookBuilder{
     
     title           : string;
     description     : string;
@@ -11,6 +11,7 @@ export default class BookBuilder implements IBookBuilder{
     stock           : number;
     thumbnail       : string[];
     price           : number;
+    code            : string
     pages           : number;
     language        : string;
     release         : string;
@@ -26,6 +27,7 @@ export default class BookBuilder implements IBookBuilder{
         this.stock           = 0;
         this.thumbnail       = [];
         this.price           = 0;
+        this.code            = ''
         this.pages           = 0;
         this.language        = '';
         this.release         = '';
@@ -42,6 +44,7 @@ export default class BookBuilder implements IBookBuilder{
         this.stock           = 0;
         this.thumbnail       = [];
         this.price           = 0;
+        this.code            = ''
         this.pages           = 0;
         this.language        = '';
         this.release         = '';
@@ -72,6 +75,10 @@ export default class BookBuilder implements IBookBuilder{
     }
     setPrice(price: number): IBookBuilder {
         this.price = price
+        return this
+    }
+    setCode(code: string): IBookBuilder {
+        this.code = code
         return this
     }
     setPages(pages: number): IBookBuilder {
@@ -112,7 +119,8 @@ export default class BookBuilder implements IBookBuilder{
             this.editorial,
             this.stock,           
             this.thumbnail,
-            this.price,           
+            this.price, 
+            this.code,          
             this.pages,           
             this.language,       
             this.release,        

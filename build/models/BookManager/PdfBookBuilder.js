@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const Book_1 = __importDefault(require("./Book"));
-class BookPdfBuilder {
+class PdfBookBuilder {
     constructor() {
         this.title = '';
         this.description = '';
@@ -13,6 +13,7 @@ class BookPdfBuilder {
         this.stock = 0;
         this.thumbnail = [];
         this.price = 0;
+        this.code = '';
         this.pages = 0;
         this.language = '';
         this.release = '';
@@ -28,6 +29,7 @@ class BookPdfBuilder {
         this.stock = 0;
         this.thumbnail = [];
         this.price = 0;
+        this.code = '';
         this.pages = 0;
         this.language = '';
         this.release = '';
@@ -59,6 +61,10 @@ class BookPdfBuilder {
         this.price = price;
         return this;
     }
+    setCode(code) {
+        this.code = code;
+        return this;
+    }
     setPages(pages) {
         this.pages = pages;
         return this;
@@ -88,9 +94,9 @@ class BookPdfBuilder {
         return this;
     }
     build() {
-        const pdfBook = new Book_1.default(this.title, this.description, this.author, this.editorial, this.stock, this.thumbnail, this.price, this.pages, this.language, this.release, this.category, this.sold, this.type);
+        const pdfBook = new Book_1.default(this.title, this.description, this.author, this.editorial, this.stock, this.thumbnail, this.price, this.code, this.pages, this.language, this.release, this.category, this.sold, this.type);
         this.reset();
         return pdfBook;
     }
 }
-exports.default = BookPdfBuilder;
+exports.default = PdfBookBuilder;
