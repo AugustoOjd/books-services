@@ -4,17 +4,70 @@ import BookServices from '../services/bookServices/book.services'
 const bookServices = new BookServices()
 
 export const getAllBooks = async (req = request, res = response)=>{
+    
+    const { limit, category } = req.query
+
     try {
-        
+        const data = await bookServices.getAllBooks(limit as string)
+
+        if(category){
+            const data = await bookServices.getBookByCategory(category as string)
+
+            return res.status(200).json({
+                msg: 'Success',
+                payload: {
+                    books: data.books
+                }
+            })
+        }
 
         return res.status(200).json({
             msg: 'Success',
-            payload: 'todos los books en json'
+            payload: {
+                books: data.books
+            }
         })
     } catch (error) {
-        console.log(error)
+        return res.status(404).json({error: error})
     }
 }
+
+export const getBookById = async(req = request, res = response)=>{
+    const { id } = req.params
+
+    try {
+        
+        const data = await bookServices.getBookById(id)
+
+        return res.status(200).json({
+            msg: 'Success',
+            payload: {
+                book: data.book
+            }
+        })
+
+    } catch (error) {
+        return res.status(500).json({error: error})
+    }
+}
+
+// export const getBookByCategory = async(req = request, res = response)=>{
+//     const { category } = req.query
+
+//     try {
+//         const data = await bookServices.getBookByCategory(category as string)
+
+//         console.log(data)
+//         return res.status(200).json({
+//             msg: 'Success',
+//             payload: {
+//                 books: data.books
+//             }
+//         })
+//     } catch (error) {
+//         return res.status(404).json({error: error})
+//     }
+// }
 
 export const addNewBook = async (req = request, res = response)=>{
 
@@ -28,6 +81,7 @@ export const addNewBook = async (req = request, res = response)=>{
             msg: 'physical book created success',
             payload: {
                 book: {
+                id: data.book._id,
                 title: data.book.title,
                 description: data.book.description,
                 author: data.book.author,
@@ -44,7 +98,8 @@ export const addNewBook = async (req = request, res = response)=>{
             }
         })
     } catch (error) {
-        console.log(error)
+        return res.status(404).json({error: error})
     }
 }
+
 

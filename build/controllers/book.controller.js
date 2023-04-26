@@ -12,22 +12,66 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addNewBook = exports.getAllBooks = void 0;
+exports.addNewBook = exports.getBookById = exports.getAllBooks = void 0;
 const express_1 = require("express");
 const book_services_1 = __importDefault(require("../services/bookServices/book.services"));
 const bookServices = new book_services_1.default();
 const getAllBooks = (req = express_1.request, res = express_1.response) => __awaiter(void 0, void 0, void 0, function* () {
+    const { limit, category } = req.query;
     try {
+        const data = yield bookServices.getAllBooks(limit);
+        if (category) {
+            const data = yield bookServices.getBookByCategory(category);
+            return res.status(200).json({
+                msg: 'Success',
+                payload: {
+                    books: data.books
+                }
+            });
+        }
         return res.status(200).json({
             msg: 'Success',
-            payload: 'todos los books en json'
+            payload: {
+                books: data.books
+            }
         });
     }
     catch (error) {
-        console.log(error);
+        return res.status(404).json({ error: error });
     }
 });
 exports.getAllBooks = getAllBooks;
+const getBookById = (req = express_1.request, res = express_1.response) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    try {
+        const data = yield bookServices.getBookById(id);
+        return res.status(200).json({
+            msg: 'Success',
+            payload: {
+                book: data.book
+            }
+        });
+    }
+    catch (error) {
+        return res.status(500).json({ error: error });
+    }
+});
+exports.getBookById = getBookById;
+// export const getBookByCategory = async(req = request, res = response)=>{
+//     const { category } = req.query
+//     try {
+//         const data = await bookServices.getBookByCategory(category as string)
+//         console.log(data)
+//         return res.status(200).json({
+//             msg: 'Success',
+//             payload: {
+//                 books: data.books
+//             }
+//         })
+//     } catch (error) {
+//         return res.status(404).json({error: error})
+//     }
+// }
 const addNewBook = (req = express_1.request, res = express_1.response) => __awaiter(void 0, void 0, void 0, function* () {
     const { title, description, author, editorial, stock, thumbnail, price, code, pages, language, release, category } = req.body;
     try {
@@ -36,6 +80,7 @@ const addNewBook = (req = express_1.request, res = express_1.response) => __awai
             msg: 'physical book created success',
             payload: {
                 book: {
+                    id: data.book._id,
                     title: data.book.title,
                     description: data.book.description,
                     author: data.book.author,
@@ -53,7 +98,7 @@ const addNewBook = (req = express_1.request, res = express_1.response) => __awai
         });
     }
     catch (error) {
-        console.log(error);
+        return res.status(404).json({ error: error });
     }
 });
 exports.addNewBook = addNewBook;

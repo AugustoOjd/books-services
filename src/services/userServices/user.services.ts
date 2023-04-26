@@ -66,7 +66,10 @@ export default class UserServices {
             }
 
         } catch (error) {
-            throw this.errorController('Error register regular user', 500)
+            throw {
+                error: this.error,
+                code: this.code
+            }
         }
     }
 

@@ -30,6 +30,77 @@ class BookServices {
         this.error = message;
         this.code = code;
     }
+    getAllBooks(limit) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const data = yield book_schema_1.BookModel.find();
+                if (!data) {
+                    throw this.errorController('data is undefined', 500);
+                }
+                const limitData = data.slice(0, Number(limit));
+                if (limit) {
+                    return {
+                        books: limitData
+                    };
+                }
+                return {
+                    books: data
+                };
+            }
+            catch (error) {
+                throw {
+                    error: this.error,
+                    code: this.code
+                };
+            }
+        });
+    }
+    getBookById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const data = yield book_schema_1.BookModel.findById(id);
+                if (!data)
+                    throw this.errorController('id not found', 404);
+                return {
+                    book: data
+                };
+            }
+            catch (error) {
+                throw {
+                    error: this.error,
+                    code: this.code
+                };
+            }
+        });
+    }
+    getBookByCategory(category) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                if (category) {
+                    const data = yield book_schema_1.BookModel.find({ category: category });
+                    if (!data)
+                        throw this.errorController('category not found', 404);
+                    return {
+                        books: data
+                    };
+                }
+                else {
+                    const data = yield book_schema_1.BookModel.find();
+                    if (!data)
+                        throw this.errorController('books error not found', 404);
+                    return {
+                        books: data
+                    };
+                }
+            }
+            catch (error) {
+                throw {
+                    error: this.error,
+                    code: this.code
+                };
+            }
+        });
+    }
     createPhysicalBook(title, description, author, editorial, stock, thumbnail, price, code, pages, language, release, category) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -44,7 +115,10 @@ class BookServices {
                 };
             }
             catch (error) {
-                throw this.errorController('Error register regular user', 500);
+                throw {
+                    error: this.error,
+                    code: this.code
+                };
             }
         });
     }

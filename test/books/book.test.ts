@@ -21,49 +21,80 @@ let newbookMock = {
     category    : 'drama'
 }
 
-describe('GET - peticiones get api/books -', ()=>{
 
+describe('CRUD BOOK - GET,POST, PUT, DELETE - peticiones post api/books - ', ()=>{
+
+    let respPost
     beforeAll(async ()=>{
         await mongoose.connect(process.env.DB_CONNECTION!)
+        respPost = await request(new Server().getApp()).post('/api/books').send(newbookMock)
       })
 
     afterAll(async ()=>{
-    //   await UserModel.deleteMany({ email: newUser.email })
-      await mongoose.disconnect()
-    })
-
-    it('GET - get all books', async ()=>{
-
-        let resp = await request(new Server().getApp()).get('/api/books').send()
-    
-        expect(resp.status).toBe(200)
-        expect(resp.headers['content-type']).toContain('json')
-    })
-
-})
-
-describe('POST - peticiones post api/books - ', ()=>{
-
-    beforeAll(async ()=>{
-        await mongoose.connect(process.env.DB_CONNECTION!)
-      })
-
-    afterAll(async ()=>{
-      await BookModel.deleteMany({ title: newbookMock.title })
+      await BookModel.deleteOne({ title: newbookMock.title })
       await mongoose.disconnect()
     })
 
     it('POST - add new book api/books', async ()=>{
 
-        let resp = await request(new Server().getApp()).post('/api/books').send(newbookMock)
+        // let respPost = await request(new Server().getApp()).post('/api/books').send(newbookMock)
     
-        expect(resp.status).toBe(201)
-        expect(resp.headers['content-type']).toContain('json')
-        expect(resp.body.payload.book.title).toBe(newbookMock.title)
-        expect(resp.body.payload.book.description).toBe(newbookMock.description)
-        expect(resp.body.payload.book.author).toBe(newbookMock.author)
-        expect(resp.body.payload.book.editorial).toBe(newbookMock.editorial)
-        expect(resp.body.payload.book.price).toBe(newbookMock.price)
-        expect(resp.body.payload.book.code).toBe(newbookMock.code)
+        expect(respPost.status).toBe(201)
+        expect(respPost.headers['content-type']).toContain('json')
+        expect(respPost.body.payload.book.id).toBeDefined()
+        expect(respPost.body.payload.book.title).toBe(newbookMock.title)
+        expect(respPost.body.payload.book.description).toBe(newbookMock.description)
+        expect(respPost.body.payload.book.author).toBe(newbookMock.author)
+        expect(respPost.body.payload.book.editorial).toBe(newbookMock.editorial)
+        expect(respPost.body.payload.book.price).toBe(newbookMock.price)
+        expect(respPost.body.payload.book.code).toBe(newbookMock.code)
+        expect(respPost.body.payload.book.pages).toBe(newbookMock.pages)
+        expect(respPost.body.payload.book.category).toBe(newbookMock.category)
     })
+    
+    
+
+    it('GET - get all books', async ()=>{
+
+      let resp = await request(new Server().getApp()).get('/api/books').send()
+      
+      expect(resp.status).toBe(200)
+      expect(resp.headers['content-type']).toContain('json')
+      expect(resp.body.payload.books).toBeDefined()
+    })
+
+    it('GET - get by id api/books/:id', async ()=>{
+
+      let respGet = await request(new Server().getApp()).get(`/api/books/${respPost.body.payload.book.id}`).send()
+
+      expect(respGet.status).toBe(200)
+      expect(respGet.headers['content-type']).toContain('json')
+      expect(respGet.body.payload.book.title).toBe(newbookMock.title)
+      expect(respGet.body.payload.book.description).toBe(newbookMock.description)
+      expect(respGet.body.payload.book.author).toBe(newbookMock.author)
+      expect(respGet.body.payload.book.editorial).toBe(newbookMock.editorial)
+      expect(respGet.body.payload.book.price).toBe(newbookMock.price)
+      expect(respGet.body.payload.book.code).toBe(newbookMock.code)
+      expect(respGet.body.payload.book.pages).toBe(newbookMock.pages)
+      expect(respGet.body.payload.book.category).toBe(newbookMock.category)
+    })
+
+    it('GET - get by category api/books?category=', async ()=>{
+
+      let resp = await request(new Server().getApp()).get(`/api/books`).query({ category: 'drama'}).send()
+
+      expect(resp.status).toBe(200)
+      expect(resp.headers['content-type']).toContain('json')
+      expect(resp.body.payload.books).toBeDefined()
+      expect(resp.body.payload.books[0].title).toBe(newbookMock.title)
+      expect(resp.body.payload.books[0].description).toBe(newbookMock.description)
+      expect(resp.body.payload.books[0].author).toBe(newbookMock.author)
+      expect(resp.body.payload.books[0].editorial).toBe(newbookMock.editorial)
+      expect(resp.body.payload.books[0].price).toBe(newbookMock.price)
+      expect(resp.body.payload.books[0].code).toBe(newbookMock.code)
+      expect(resp.body.payload.books[0].pages).toBe(newbookMock.pages)
+      expect(resp.body.payload.books[0].category).toBe(newbookMock.category)
+    })
+
+
 })

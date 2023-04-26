@@ -4,7 +4,7 @@ import PdfBookBuilder from "../../models/BookManager/PdfBookBuilder";
 import BookDirector from "../../models/BookManager/BookDirector";
 import { BookModel } from "../../db/schemas/book.schema";
 
-
+type CategoryType = 'drama' | 'terror' | 'fiction' 
 
 export default class BookServices {
     
@@ -32,6 +32,80 @@ export default class BookServices {
     errorController(message: string, code: number) {
         this.error = message;
         this.code = code
+    }
+
+    async getAllBooks(limit?: string){
+        try {
+            const data = await BookModel.find()
+
+            if(!data){
+                throw this.errorController('data is undefined', 500)
+            }
+
+            const limitData = data.slice(0, Number(limit))
+            if(limit){
+                return {
+                    books: limitData
+                }
+            }
+
+            return {
+                books: data
+            }
+        } catch (error) {
+            throw {
+                error: this.error,
+                code: this.code
+            }
+        }
+    }
+
+    async getBookById(id: string){
+        try {
+            const data = await BookModel.findById(id)
+            if(!data) throw this.errorController('id not found', 404)
+
+            return {
+                book: data
+            }
+
+        } catch (error) {
+            throw {
+                error: this.error,
+                code: this.code
+            }
+        }
+    }
+
+    async getBookByCategory(category?: string){
+        try {
+            
+            if(category){
+                const data = await BookModel.find({category: category})
+
+                if(!data) throw this.errorController('category not found', 404)
+
+                return {
+                    books: data
+                }
+            }
+            else{
+                
+                const data = await BookModel.find()
+
+                if(!data) throw this.errorController('books error not found', 404)
+
+                return {
+                    books: data
+                }
+            }
+
+        } catch (error) {
+            throw {
+                error: this.error,
+                code: this.code
+            }
+        }
     }
 
     async createPhysicalBook(
@@ -74,7 +148,10 @@ export default class BookServices {
                     book: data,
                 }
             } catch (error) {
-                throw this.errorController('Error register regular user', 500)
+                throw {
+                    error: this.error,
+                    code: this.code
+                }
             }
     }
 
