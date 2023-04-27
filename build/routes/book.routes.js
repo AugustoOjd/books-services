@@ -6,4 +6,5 @@ const router = (0, express_1.Router)();
 router.get('/', book_controller_1.getAllBooks);
 router.get('/:id', book_controller_1.getBookById);
 router.post('/', book_controller_1.addNewBook);
+router.put('/:id', book_controller_1.updateBookById);
 exports.default = router;

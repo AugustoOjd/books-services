@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addNewBook = exports.getBookById = exports.getAllBooks = void 0;
+exports.updateBookById = exports.addNewBook = exports.getBookById = exports.getAllBooks = void 0;
 const express_1 = require("express");
 const book_services_1 = __importDefault(require("../services/bookServices/book.services"));
 const bookServices = new book_services_1.default();
@@ -57,21 +57,6 @@ const getBookById = (req = express_1.request, res = express_1.response) => __awa
     }
 });
 exports.getBookById = getBookById;
-// export const getBookByCategory = async(req = request, res = response)=>{
-//     const { category } = req.query
-//     try {
-//         const data = await bookServices.getBookByCategory(category as string)
-//         console.log(data)
-//         return res.status(200).json({
-//             msg: 'Success',
-//             payload: {
-//                 books: data.books
-//             }
-//         })
-//     } catch (error) {
-//         return res.status(404).json({error: error})
-//     }
-// }
 const addNewBook = (req = express_1.request, res = express_1.response) => __awaiter(void 0, void 0, void 0, function* () {
     const { title, description, author, editorial, stock, thumbnail, price, code, pages, language, release, category } = req.body;
     try {
@@ -102,3 +87,19 @@ const addNewBook = (req = express_1.request, res = express_1.response) => __awai
     }
 });
 exports.addNewBook = addNewBook;
+const updateBookById = (req = express_1.request, res = express_1.response) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const newData = req.body;
+    try {
+        // const book = await bookServices.updatePhysicalBook(id, {title: 'new title', description: 'new description', price: 50})
+        const book = yield bookServices.updatePhysicalBook(id, Object.assign({}, newData));
+        return res.status(201).json({
+            msg: 'Update success',
+            payload: book
+        });
+    }
+    catch (error) {
+        return res.status(404).json({ error: error });
+    }
+});
+exports.updateBookById = updateBookById;

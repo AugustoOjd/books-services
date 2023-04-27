@@ -122,5 +122,27 @@ class BookServices {
             }
         });
     }
+    updatePhysicalBook(id, newData) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const findBook = yield book_schema_1.BookModel.findById(id);
+                if (!findBook)
+                    throw this.errorController('id not found', 404);
+                const query = { _id: id };
+                const data = yield book_schema_1.BookModel.findOneAndUpdate(query, newData, { new: true });
+                if (!data)
+                    throw this.errorController('Book not found', 500);
+                return {
+                    book: data,
+                };
+            }
+            catch (error) {
+                throw {
+                    code: this.code,
+                    error: this.error
+                };
+            }
+        });
+    }
 }
 exports.default = BookServices;

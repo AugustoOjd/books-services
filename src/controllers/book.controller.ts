@@ -51,24 +51,6 @@ export const getBookById = async(req = request, res = response)=>{
     }
 }
 
-// export const getBookByCategory = async(req = request, res = response)=>{
-//     const { category } = req.query
-
-//     try {
-//         const data = await bookServices.getBookByCategory(category as string)
-
-//         console.log(data)
-//         return res.status(200).json({
-//             msg: 'Success',
-//             payload: {
-//                 books: data.books
-//             }
-//         })
-//     } catch (error) {
-//         return res.status(404).json({error: error})
-//     }
-// }
-
 export const addNewBook = async (req = request, res = response)=>{
 
     const {title ,description,author ,editorial ,stock ,thumbnail ,price , code, pages ,language ,release ,category} = req.body
@@ -96,6 +78,24 @@ export const addNewBook = async (req = request, res = response)=>{
                 category: data.book.category
                 }
             }
+        })
+    } catch (error) {
+        return res.status(404).json({error: error})
+    }
+}
+
+export const updateBookById = async (req = request, res = response)=>{
+    const { id } = req.params
+    const newData = req.body
+
+    try {
+        
+        // const book = await bookServices.updatePhysicalBook(id, {title: 'new title', description: 'new description', price: 50})
+        const book = await bookServices.updatePhysicalBook(id, {...newData})
+
+        return res.status(201).json({
+            msg: 'Update success',
+            payload: book
         })
     } catch (error) {
         return res.status(404).json({error: error})

@@ -31,7 +31,7 @@ describe('CRUD BOOK - GET,POST, PUT, DELETE - peticiones post api/books - ', ()=
       })
 
     afterAll(async ()=>{
-      await BookModel.deleteOne({ title: newbookMock.title })
+      await BookModel.deleteOne({ code: 'ghnxjl' })
       await mongoose.disconnect()
     })
 
@@ -94,6 +94,23 @@ describe('CRUD BOOK - GET,POST, PUT, DELETE - peticiones post api/books - ', ()=
       expect(resp.body.payload.books[0].code).toBe(newbookMock.code)
       expect(resp.body.payload.books[0].pages).toBe(newbookMock.pages)
       expect(resp.body.payload.books[0].category).toBe(newbookMock.category)
+    })
+
+    it('PUT - put actualizar by id api/books/:id', async()=>{
+
+      const newData = {title: 'new title', description: 'new description', price: 50 }
+      let resp = await request(new Server().getApp()).put(`/api/books/${respPost.body.payload.book.id}`).send(newData)
+
+      expect(resp.status).toBe(201)
+      expect(resp.headers['content-type']).toContain('json')
+      expect(resp.body.payload.book.title).toBe('new title')
+      expect(resp.body.payload.book.description).toBe('new description')
+      expect(resp.body.payload.book.author).toBe(newbookMock.author)
+      expect(resp.body.payload.book.editorial).toBe(newbookMock.editorial)
+      expect(resp.body.payload.book.price).toBe(50)
+      expect(resp.body.payload.book.code).toBe(newbookMock.code)
+      expect(resp.body.payload.book.pages).toBe(newbookMock.pages)
+      expect(resp.body.payload.book.category).toBe(newbookMock.category)
     })
 
 

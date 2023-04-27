@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">86.36% </span>
+                <span class="strong">86.2% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>19/22</span>
+                <span class='fraction'>25/29</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">25% </span>
+                <span class="strong">20% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/8</span>
+                <span class='fraction'>2/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/3</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">86.36% </span>
+                <span class="strong">86.2% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>19/22</span>
+                <span class='fraction'>25/29</span>
             </div>
         
             
@@ -221,24 +221,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -264,6 +246,24 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -326,24 +326,6 @@ export const getBookById = async(req = <span class="branch-0 cbranch-no" title="
     }
 }
 &nbsp;
-// export const getBookByCategory = async(req = request, res = response)=&gt;{
-//     const { category } = req.query
-&nbsp;
-//     try {
-//         const data = await bookServices.getBookByCategory(category as string)
-&nbsp;
-//         console.log(data)
-//         return res.status(200).json({
-//             msg: 'Success',
-//             payload: {
-//                 books: data.books
-//             }
-//         })
-//     } catch (error) {
-//         return res.status(404).json({error: error})
-//     }
-// }
-&nbsp;
 export const addNewBook = async (req = <span class="branch-0 cbranch-no" title="branch not covered" >request,</span> res = <span class="branch-0 cbranch-no" title="branch not covered" >response)</span>=&gt;{
 &nbsp;
     const {title ,description,author ,editorial ,stock ,thumbnail ,price , code, pages ,language ,release ,category} = req.body
@@ -377,6 +359,24 @@ export const addNewBook = async (req = <span class="branch-0 cbranch-no" title="
     }
 }
 &nbsp;
+export const updateBookById = async (req = <span class="branch-0 cbranch-no" title="branch not covered" >request,</span> res = <span class="branch-0 cbranch-no" title="branch not covered" >response)</span>=&gt;{
+    const { id } = req.params
+    const newData = req.body
+&nbsp;
+    try {
+        
+        // const book = await bookServices.updatePhysicalBook(id, {title: 'new title', description: 'new description', price: 50})
+        const book = await bookServices.updatePhysicalBook(id, {...newData})
+&nbsp;
+        return res.status(201).json({
+            msg: 'Update success',
+            payload: book
+        })
+    } catch (error) {
+<span class="cstat-no" title="statement not covered" >        return res.status(404).json({error: error})</span>
+    }
+}
+&nbsp;
 &nbsp;
 &nbsp;</pre></td></tr></table></pre>
 
@@ -385,7 +385,7 @@ export const addNewBook = async (req = <span class="branch-0 cbranch-no" title="
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-04-26T23:31:02.953Z
+                at 2023-04-27T22:23:30.221Z
             </div>
         <script src="../prettify.js"></script>
         <script>
