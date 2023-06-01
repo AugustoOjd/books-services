@@ -7,6 +7,11 @@ import userRouter from '../routes/user.routes'
 import bookRouter from '../routes/book.routes'
 
 import bodyParser from "body-parser";
+import { sequelize } from "../db/pgConnection";
+import { User } from "../db/models/User.table";
+import { Author } from "../db/models/Author.table";
+import { Category } from "../db/models/Category.table";
+import { Book } from "../db/models/Book.table";
 
 
 
@@ -29,7 +34,8 @@ export default class Server {
         }
 
 
-        this.dbConnection()
+        // this.dbConnection()
+        this.dbSQLConnection()
 
         // Middlewares
         this.middlewares();
@@ -42,17 +48,37 @@ export default class Server {
         return this.app
     }
 
-    async dbConnection(){
-        // const connect = await 
-        // console.log(connect)
+    async dbSQLConnection(){
         try {
-            // await mongoose.connect(process.env.DB_CONNECTION!)
-            await DBConnection.getInstance()
-        } catch (error) {
-            console.log(error)
-        }
-        
+            await sequelize.authenticate();
+
+            await User.sync()
+            await Author.sync()
+            await Category.sync()
+            await Book.sync()
+
+            // await User.sync({force: true})
+            // await Author.sync({force: true})
+            // await Category.sync({force: true})
+            // await Book.sync({force: true})
+            
+            console.log('Connection has been established successfully.');
+          } catch (error) {
+            console.error('Unable to connect to the database:', error);
+          }
     }
+
+    // async dbConnection(){
+    //     // const connect = await 
+    //     // console.log(connect)
+    //     try {
+    //         // await mongoose.connect(process.env.DB_CONNECTION!)
+    //         await DBConnection.getInstance()
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+        
+    // }
 
     // EXPORTAR THIS.APP O APP DEL SERVER PARA USAR EN TEST
 

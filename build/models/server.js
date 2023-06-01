@@ -15,10 +15,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
-const dbConnection_1 = __importDefault(require("../db/dbConnection"));
 const user_routes_1 = __importDefault(require("../routes/user.routes"));
 const book_routes_1 = __importDefault(require("../routes/book.routes"));
 const body_parser_1 = __importDefault(require("body-parser"));
+const pgConnection_1 = require("../db/pgConnection");
+const User_table_1 = require("../db/models/User.table");
+const Author_table_1 = require("../db/models/Author.table");
+const Category_table_1 = require("../db/models/Category.table");
+const Book_table_1 = require("../db/models/Book.table");
 class Server {
     constructor() {
         this.app = (0, express_1.default)();
@@ -27,7 +31,8 @@ class Server {
             user: '/api/user',
             book: '/api/books'
         };
-        this.dbConnection();
+        // this.dbConnection()
+        this.dbSQLConnection();
         // Middlewares
         this.middlewares();
         // Definir rutas
@@ -36,19 +41,35 @@ class Server {
     getApp() {
         return this.app;
     }
-    dbConnection() {
+    dbSQLConnection() {
         return __awaiter(this, void 0, void 0, function* () {
-            // const connect = await 
-            // console.log(connect)
             try {
-                // await mongoose.connect(process.env.DB_CONNECTION!)
-                yield dbConnection_1.default.getInstance();
+                yield pgConnection_1.sequelize.authenticate();
+                yield User_table_1.User.sync();
+                yield Author_table_1.Author.sync();
+                yield Category_table_1.Category.sync();
+                yield Book_table_1.Book.sync();
+                // await User.sync({force: true})
+                // await Author.sync({force: true})
+                // await Category.sync({force: true})
+                // await Book.sync({force: true})
+                console.log('Connection has been established successfully.');
             }
             catch (error) {
-                console.log(error);
+                console.error('Unable to connect to the database:', error);
             }
         });
     }
+    // async dbConnection(){
+    //     // const connect = await 
+    //     // console.log(connect)
+    //     try {
+    //         // await mongoose.connect(process.env.DB_CONNECTION!)
+    //         await DBConnection.getInstance()
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
     // EXPORTAR THIS.APP O APP DEL SERVER PARA USAR EN TEST
     middlewares() {
         this.app.use(express_1.default.json());
