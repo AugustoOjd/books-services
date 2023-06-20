@@ -89,7 +89,7 @@ export const updateBookById = async (req = request, res = response)=>{
     const newData = req.body
 
     try {
-        
+        // new mongo
         // const book = await bookServices.updatePhysicalBook(id, {title: 'new title', description: 'new description', price: 50})
         const book = await bookServices.updatePhysicalBook(id, {...newData})
 

@@ -91,6 +91,7 @@ const updateBookById = (req = express_1.request, res = express_1.response) => __
     const { id } = req.params;
     const newData = req.body;
     try {
+        // new mongo
         // const book = await bookServices.updatePhysicalBook(id, {title: 'new title', description: 'new description', price: 50})
         const book = yield bookServices.updatePhysicalBook(id, Object.assign({}, newData));
         return res.status(201).json({
